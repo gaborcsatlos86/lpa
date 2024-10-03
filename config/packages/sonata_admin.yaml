@@ -1,0 +1,16 @@
+sonata_admin:
+    title: 'CsWeb Admin'
+    title_logo: web_system_logo.png
+    assets:
+        extra_javascripts:
+            - bundles/sonatapage/app.js
+        extra_stylesheets:
+            - bundles/sonatapage/app.css
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

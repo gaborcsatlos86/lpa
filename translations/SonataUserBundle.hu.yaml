@@ -1,0 +1,19 @@
+ROLE_SUPER_ADMIN: Super Admin jog
+ROLE_ALLOWED_TO_SWITCH: Felhasználót válthat jog
+ROLE_SONATA_ADMIN: Sonata Admin jog
+ROLE_ADMIN: Admin jog
+ROLE_USER: Felhasználói jog
+form.group_lpa: LPA
+form.label_level: Szint
+show.label_level: Szint
+list.label_level: Szint
+filter.label_level: Szint
+show.label_area: Terület
+list.label_area: Terület
+filter.label_area: Terület
+form.label_area: Terület
+---: ---
+Area: Terület
+production: Gyártás
+warehouse: Raktár
+maintenance: Karbantartás

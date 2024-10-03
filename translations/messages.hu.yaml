@@ -1,0 +1,61 @@
+Name: Név
+Product Number: Cikkszám
+Product List: Termék lista
+
+Product: Termék
+Product Create: Termék létrehozás
+Table Group: Asztalcsoport
+Code: Kód
+Table Group List: Asztalcsoport lista
+Table Group Create: Asztalcsoport létrehozás
+Level 1: 1. szint
+Level 2: 2. szint
+Level 3: 3. szint
+production: Gyártás
+warehouse: Raktár
+maintenance: Karbantartás
+---: ---
+
+Question: Kérdés
+Text: Szöveg
+Area: Terület
+Active: Aktív
+Question List: Kérdés lista
+Question Create: Kérdés létrehozás
+Available Answers: Elérhető válaszok
+General: Általános
+Lpa: LPA
+OK: OK
+NOK: NOK
+N/A: N/A
+Corr: Corr
+Question Answer List: Válaszok Lista
+Question Answer: Válaszok
+
+Please sign in: Kérlek, jelentkezz be
+Username: Felhasználó név
+Email: Email
+Password: Jelszó
+Plain password: Jelszó
+Repeat Password: Jelszó újra
+login: Belépés
+Keep me logged in: Emlékezzen rám
+
+LPA Audit: LPA Audit
+Login: Belépés
+Create account: Fiók létrehozása
+Back to top: Vissza a tetejére
+Hello: Helló
+Please, sign in!: Kérlek, jelentkezz be!
+Logout: Kijelentkezés
+Opening text...: Valami nyitó szöveg...
+Start: Kezdés
+To start the audit, please select the target platform.: Az audit megkezdéséhez válasszon az alábbiak közül.
+
+pelda.dolgozo: pelda.dolgozo
+Level: Szint
+Save: Mentés
+Submit: Küldés
+Justification: Indoklás
+Thank you for today work!: Köszönjük a mai munkádat!
+

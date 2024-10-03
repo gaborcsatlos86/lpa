@@ -1,0 +1,14 @@
+# config/packages/sonata_user.yaml
+
+sonata_user:
+    admin: # Admin Classes
+        user:
+            class: App\Admin\UserAdmin
+            controller: '%sonata.admin.configuration.default_controller%'
+            translation: SonataUserBundle
+    class:
+        user: App\Entity\User
+    resetting:
+        email:
+            address: admin@web-system.local
+            sender_name: Sonata Admin

@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+	<section class="jumbotron text-center">
+	        <div class="container">
+	          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
+	          <p>{{ '....' }}</p>
+	          {% if questions %}
+	          <ul class="nav nav-pills">
+	          	{% for question in questions %}
+	          	<li class="nav-item"><a class="nav-link{% if loop.index == 1  %} active{% endif %}" href="#question{{ loop.index }}">{{ loop.index }}</a></li>
+	          	{% endfor %}
+		      </ul>
+			    <form method="post" data-turbo="false">
+			      <div class="tab-content">
+			      	{% for question in questions %}
+			      	<div id="question{{ loop.index }}" class="tab-pane fade{% if loop.index == 1  %} active show{% endif %}">
+			          <h3>{{ question.text }}</h3>
+			          <select class="form-select middle-with answer-select" name="answer[question{{ question.id }}]" id="question{{ question.id }}_answer" required="required">
+			          	<option value=""></option>
+			          {% for answer in question.availableAnswers %}
+			          	<option value="{{ answer }}">{{ answer|trans() }}</option>
+			          {% endfor %}
+			          </select>
+			          <br />
+			          <div id="question{{ question.id }}_justif" class="justification hidden">
+			          	<label for="question{{ question.id }}_comment" class="sr-only">{{ 'Justification'|trans() }}:</label>
+			          	<input type="text" class="form-control" id="question{{ question.id }}_comment" name="comment[question{{ question.id }}]" >
+			          </div>
+			        </div>
+		          	{% endfor %}
+			      </div>
+			      <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Submit'|trans() }}</button>
+			    </form>
+			    {% else %}
+			    <h3>{{ 'Thank you for today work!'|trans() }}</h3>
+			    {% endif %}
+	        </div>
+	        
+	    </section>
+{% endblock %}
