@@ -69,20 +69,29 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('text')
+            ->addIdentifier('id')
+            ->add('user.username')
             ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
-            ->add('answers', FieldDescriptionInterface::TYPE_TRANS)
+            ->add('product')
+            ->add('question')
+            ->add('answer', FieldDescriptionInterface::TYPE_TRANS)
+            ->add('answerDescription')
+            ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
         ;
     }
     
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('text')
+            ->add('user.username')
             ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
-            ->add('availableAnswers', FieldDescriptionInterface::TYPE_ARRAY)
-            ->add('active')
+            ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('product')
+            ->add('question')
+            ->add('answer', FieldDescriptionInterface::TYPE_TRANS)
+            ->add('answerDescription')
+            ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
         ;
     }
 }

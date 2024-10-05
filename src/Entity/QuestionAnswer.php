@@ -132,6 +132,11 @@ class QuestionAnswer extends AbstractBaseEntity
         return $this;
     }
     
+    public function __toString(): string
+    {
+        return $this->answer . ' - ' . $this->question->getText();
+    }
+    
     #[ORM\PrePersist]
     public function onPrePersist(PrePersistEventArgs $eventArgs)
     {
