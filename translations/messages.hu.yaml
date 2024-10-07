@@ -68,3 +68,28 @@ Answer: Válasz
 Answer Description: Indoklás
 Created At: Rögzítve
 Id: Azonosító
+
+Question Answers Statistics: LPA Statisztika
+Sendt answers: Beküldött válaszok
+
+Yesterday-level-1-production: Tegnap - 1. szint - Gyártás
+Yesterday-level-1-warehouse: Tegnap - 1. szint - Raktár
+Yesterday-level-1-maintenance: Tegnap - 1. szint - Karbantartás
+Yesterday-level-2-production: Tegnap - 2. szint - Gyártás
+Yesterday-level-2-warehouse: Tegnap - 2. szint - Raktár
+Yesterday-level-2-maintenance: Tegnap - 2. szint - Karbantartás
+Yesterday-level-3-production: Tegnap - 3. szint - Gyártás
+Yesterday-level-3-warehouse: Tegnap - 3. szint - Raktár
+Yesterday-level-3-maintenance: Tegnap - 3. szint - Karbantartás
+Today-level-1-production: Mai - 1. szint - Gyártás
+Today-level-1-warehouse: Mai - 1. szint - Raktár
+Today-level-1-maintenance: Mai - 1. szint - Karbantartás
+Today-level-2-production: Mai - 2. szint - Gyártás
+Today-level-2-warehouse: Mai - 2. szint - Raktár
+Today-level-2-maintenance: Mai - 2. szint - Karbantartás
+Today-level-3-production: Mai - 3. szint - Gyártás
+Today-level-3-warehouse: Mai - 3. szint - Raktár
+Today-level-3-maintenance: Mai - 3. szint - Karbantartás
+
+
+

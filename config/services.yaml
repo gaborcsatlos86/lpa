@@ -42,3 +42,13 @@ services:
         class: App\Admin\QuestionAnswerAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\QuestionAnswer, manager_type: orm, label: Question Answer, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
+            
+    admin.question_answer_statistics:
+        class: App\Block\QuestionAnswerStatisticsBlockService
+        tags:
+            - name: sonata.block
+              manager_type: orm
+              label: Statistics
+            
+    
+    

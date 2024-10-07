@@ -1,0 +1,43 @@
+{% extends sonata_block.templates.block_base %}
+
+{% set translation_domain = settings.translation_domain ?? admin.translationDomain %}
+
+{% block block %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- small box -->
+    <div class="small-box {{ settings.color }}">
+        <div class="inner">
+            <h3>{{ 'Question Answers Statistics'|trans() }}</h3>
+			<canvas id="answerChart" style="width:100%;max-width:700px"></canvas>
+            <script type="text/javascript">
+                var xValues = [{% for label in chartFields %}"{{ label|trans() }}",{% endfor %}];
+				var yValues = [{% for chartValue in chart %}{{ chartValue }},{% endfor %}];
+				var barColors = ["light-red", "light-green","light-blue","red","green","blue","dark-red","dark-green","dark-blue","light-red", "light-green","light-blue","red","green","blue","dark-red","dark-green","dark-blue"];
+				
+				new Chart("answerChart", {
+				  type: "bar",
+				  data: {
+				    labels: xValues,
+				    datasets: [{
+				      backgroundColor: barColors,
+				      data: yValues
+				    }]
+				  },
+				  options: {
+				    legend: {display: false},
+				    title: {
+				      display: true,
+				      text: "{{ 'Sendt answers'|trans() }}"
+				    }
+				  }
+				});
+            </script>
+        </div>
+        <div class="icon">
+            {{ settings.icon|parse_icon }}
+        </div>
+        <a href="{{ admin.generateUrl('list', {filter: settings.filters}) }}" class="small-box-footer">
+            {{ 'stats_view_more'|trans({}, 'SonataAdminBundle') }} <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
+        </a>
+    </div>
+{% endblock %}
