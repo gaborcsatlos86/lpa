@@ -8,7 +8,7 @@
 	          {% if questions %}
 	          <ul class="nav nav-pills">
 	          	{% for question in questions %}
-	          	<li class="nav-item"><a class="nav-link{% if loop.index == 1  %} active{% endif %}" href="#question{{ loop.index }}">{{ loop.index }}</a></li>
+	          	<li class="nav-item"><button class="tab-link nav-link{% if loop.index == 1  %} active{% endif %}" target="#question{{ loop.index }}">{{ loop.index }}</button></li>
 	          	{% endfor %}
 		      </ul>
 			    <form method="post" data-turbo="false">
@@ -30,7 +30,7 @@
 			        </div>
 		          	{% endfor %}
 			      </div>
-			      <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Submit'|trans() }}</button>
+			      <button id="send-button" class="btn btn-lg btn-primary btn-block" type="submit" disabled>{{ 'Submit'|trans() }}</button>
 			    </form>
 			    {% else %}
 			    <h3>{{ 'Thank you for today work!'|trans() }}</h3>

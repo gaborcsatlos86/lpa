@@ -105,16 +105,35 @@
 			            	targetDiv.addClass("hidden");
 			            	targetInp.attr('required', false);
 		            	}
+		            	var inputs = $(".answer-select");
+		            	var buttonDisabled = false;
+		            	for(var i = 0; i < inputs.length; i++){
+						    if ($(inputs[i]).val() == '') {
+						    	buttonDisabled = true;
+					    	}
+						}
+						var buttonSend = $("#send-button");
+						buttonSend.attr("disabled", true);
+						if (!buttonDisabled) {
+							buttonSend.attr("disabled", false);
+						}
 			        });
 			    
-			        $(".nav-pills a").click(function(){
-			            $(this).tab('show');
-			        });
-			        $('.nav-pills a').on('shown.bs.tab', function(event){
-			            var x = $(event.target).text();         
-			            var y = $(event.relatedTarget).text();  
-			            $(".act span").text(x);
-			            $(".prev span").text(y);
+			        $(".nav-pills button").click(function(event){
+			        	var buttons = $(".tab-link");
+			        	var tabs = $(".tab-pane");
+			        	for(var i = 0; i < buttons.length; i++){
+			        		$(buttons[i]).removeClass('active');
+			        	}
+			        	
+			        	for(var i = 0; i < tabs.length; i++){
+			        		$(tabs[i]).removeClass('active show');
+			        	}
+			        	
+			        	
+			        	$(event.target).addClass(' active');
+			        	$($(event.target).attr('target')).addClass(' active show');
+			        	
 			        });
 			    });
 			</script>
