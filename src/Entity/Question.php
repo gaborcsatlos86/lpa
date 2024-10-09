@@ -15,6 +15,9 @@ class Question extends AbstractBaseEntity
 {
     #[ORM\Column(type: Types::TEXT)]
     private string $text;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
     
     #[ORM\Column(type: Types::STRING)]
     private string $area;
@@ -36,6 +39,18 @@ class Question extends AbstractBaseEntity
     public function setText(string $text): self
     {
         $this->text = $text;
+        
+        return $this;
+    }
+    
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+    
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
         
         return $this;
     }

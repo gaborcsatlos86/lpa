@@ -29,7 +29,8 @@ final class QuestionAdmin extends AbstractAdmin
         $form
             ->with('general', ['class' => 'col-md-6'])
                 ->add('text', TextareaType::class)
-                ->add('active', CheckboxType::class)
+                ->add('comment', TextareaType::class, ['required' => false])
+                ->add('active', CheckboxType::class, ['required' => false])
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
                 ->add('area',ChoiceType::class, [
@@ -52,6 +53,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $datagrid
             ->add('text')
+            ->add('comment')
             ->add('area', StringListFilter::class, [
                 'field_type' => ChoiceType::class,
                 'field_options' => [
@@ -74,6 +76,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('text')
+            ->add('comment')
             ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('availableAnswers', FieldDescriptionInterface::TYPE_ARRAY)
@@ -86,6 +89,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $show
             ->add('text')
+            ->add('comment')
             ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('availableAnswers', FieldDescriptionInterface::TYPE_ARRAY)
