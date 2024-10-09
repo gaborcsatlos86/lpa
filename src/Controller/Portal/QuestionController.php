@@ -56,6 +56,9 @@ class QuestionController extends AbstractController
         
         
         $questions = $this->handlingLevel($user, $area, $tableGroup, $product);
+        if (!empty($questions) && isset($questions[0])) {
+            $questions = [$questions[0]];
+        }
         
         return $this->render('portal/question/index.html.twig', [
             'last_username' => $user->getUsername(),

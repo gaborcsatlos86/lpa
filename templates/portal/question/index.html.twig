@@ -6,16 +6,13 @@
 	          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
 	          <p>{{ '....' }}</p>
 	          {% if questions %}
-	          <ul class="nav nav-pills">
-	          	{% for question in questions %}
-	          	<li class="nav-item"><button class="tab-link nav-link{% if loop.index == 1  %} active{% endif %}" target="#question{{ loop.index }}">{{ loop.index }}</button></li>
-	          	{% endfor %}
-		      </ul>
 			    <form method="post" data-turbo="false">
-			      <div class="tab-content">
 			      	{% for question in questions %}
 			      	<div id="question{{ loop.index }}" class="tab-pane fade{% if loop.index == 1  %} active show{% endif %}">
-			          <h3>{{ question.text }}</h3>
+			          <h3>{{ question.text|raw }}</h3>
+			          {% if question.comment %}
+			          <p>{{ question.comment|raw }}</p>
+			          {% endif %}
 			          <select class="form-select middle-with answer-select" name="answer[question{{ question.id }}]" id="question{{ question.id }}_answer" required="required">
 			          	<option value=""></option>
 			          {% for answer in question.availableAnswers %}
@@ -35,7 +32,5 @@
 			    {% else %}
 			    <h3>{{ 'Thank you for today work!'|trans() }}</h3>
 			    {% endif %}
-	        </div>
-	        
 	    </section>
 {% endblock %}
