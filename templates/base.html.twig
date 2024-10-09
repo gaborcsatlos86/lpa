@@ -94,9 +94,12 @@
 			        $(".answer-select").on('change', function(event){
 			            var targetId = event.target.id.replace("answer", "justif");
 			            var inputId = event.target.id.replace("answer", "comment");
+			            var targetDiv = $('#'+targetId);
 			            var targetInp = $('#'+inputId);
+			            targetDiv.removeClass("hidden");
 			            targetInp.attr('required', 'required');
 			            if (event.target.value != 'NOK') {
+			            	targetDiv.addClass("hidden");
 			            	targetInp.attr('required', false);
 		            	}
 		            	var inputs = $(".answer-select");
