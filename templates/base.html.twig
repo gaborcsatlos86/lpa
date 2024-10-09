@@ -68,9 +68,6 @@
 	          	</form>
 	          {% else %}
 	          <p class="lead text-muted">{{ 'Opening text...'|trans() }}</p>
-	          <p>
-	            <a href="/registration" class="btn btn-primary my-2">{{ 'Create account'|trans() }}</a>
-	          </p>
 	          {% endif %}
 	        </div>
 	      </section>
@@ -97,12 +94,9 @@
 			        $(".answer-select").on('change', function(event){
 			            var targetId = event.target.id.replace("answer", "justif");
 			            var inputId = event.target.id.replace("answer", "comment");
-			            var targetDiv = $('#'+targetId);
 			            var targetInp = $('#'+inputId);
-			            targetDiv.removeClass("hidden");
 			            targetInp.attr('required', 'required');
 			            if (event.target.value != 'NOK') {
-			            	targetDiv.addClass("hidden");
 			            	targetInp.attr('required', false);
 		            	}
 		            	var inputs = $(".answer-select");
@@ -117,23 +111,6 @@
 						if (!buttonDisabled) {
 							buttonSend.attr("disabled", false);
 						}
-			        });
-			    
-			        $(".nav-pills button").click(function(event){
-			        	var buttons = $(".tab-link");
-			        	var tabs = $(".tab-pane");
-			        	for(var i = 0; i < buttons.length; i++){
-			        		$(buttons[i]).removeClass('active');
-			        	}
-			        	
-			        	for(var i = 0; i < tabs.length; i++){
-			        		$(tabs[i]).removeClass('active show');
-			        	}
-			        	
-			        	
-			        	$(event.target).addClass(' active');
-			        	$($(event.target).attr('target')).addClass(' active show');
-			        	
 			        });
 			    });
 			</script>

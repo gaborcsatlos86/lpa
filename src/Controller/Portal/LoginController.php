@@ -30,7 +30,6 @@ class LoginController extends AbstractController
         ]);
     }
     
-    #[Route('/registration', name: 'app_registration')]
     public function registration(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(RegistrationType::class);
