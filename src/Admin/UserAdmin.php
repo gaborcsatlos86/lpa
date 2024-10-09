@@ -82,7 +82,7 @@ class UserAdmin extends BaseUserAdmin
         $form
             ->with('general', ['class' => 'col-md-4'])
                 ->add('username')
-                ->add('email', EmailType::class, ['required' => false, 'data' => 'no-email@lpa.local'])
+                ->add('email', EmailType::class, ['required' => false, 'data' => (!$this->hasSubject() || null === $this->getSubject()->getId()) ? 'no-email@lpa.local' : $this->getSubject()->getEmail()])
                 ->add('plainPassword', PasswordType::class, [
                     'required' => (!$this->hasSubject() || null === $this->getSubject()->getId()),
                 ])
