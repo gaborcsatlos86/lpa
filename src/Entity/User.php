@@ -21,8 +21,8 @@ class User extends BaseUser
     #[ORM\Column(type: Types::STRING, nullable: true)]
     protected ?string $level = null;
     
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    protected ?string $area = null;
+    #[ORM\ManyToOne(targetEntity: Area::class)]
+    protected ?Area $area = null;
     
     public function getLevel(): ?string
     {
@@ -36,12 +36,12 @@ class User extends BaseUser
         return $this;
     }
     
-    public function getArea(): ?string
+    public function getArea(): ?Area
     {
         return $this->area;
     }
     
-    public function setArea(?string $area): self
+    public function setArea(?Area $area): self
     {
         $this->area = $area;
         

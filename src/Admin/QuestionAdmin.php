@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Enums\{Area, AnswerTypes, UserLevel};
+use App\Enums\{AnswerTypes, UserLevel};
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -33,9 +33,7 @@ final class QuestionAdmin extends AbstractAdmin
                 ->add('active', CheckboxType::class, ['required' => false])
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
-                ->add('area',ChoiceType::class, [
-                    'choices' => Area::getItems()
-                ])
+                ->add('area')
                 ->add('level',ChoiceType::class, [
                     'choices' => UserLevel::getItems()
                 ])
@@ -54,13 +52,7 @@ final class QuestionAdmin extends AbstractAdmin
         $datagrid
             ->add('text')
             ->add('comment')
-            ->add('area', StringListFilter::class, [
-                'field_type' => ChoiceType::class,
-                'field_options' => [
-                    'choices' => Area::getItems(),
-                    'multiple' => true
-                ]
-            ])
+            ->add('area')
             ->add('level', StringListFilter::class, [
                 'field_type' => ChoiceType::class,
                 'field_options' => [
@@ -77,7 +69,7 @@ final class QuestionAdmin extends AbstractAdmin
         $list
             ->addIdentifier('text')
             ->add('comment')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('availableAnswers', FieldDescriptionInterface::TYPE_ARRAY)
             ->add('active', null, ['editable' => true])
@@ -90,7 +82,7 @@ final class QuestionAdmin extends AbstractAdmin
         $show
             ->add('text')
             ->add('comment')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('availableAnswers', FieldDescriptionInterface::TYPE_ARRAY)
             ->add('active')

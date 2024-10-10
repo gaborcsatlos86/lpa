@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Portal;
 
 
-use App\Entity\{User, Product, TableGroup, QuestionAnswer};
-use App\Enums\{Area, UserLevel};
+use App\Entity\{User, Product, TableGroup, QuestionAnswer, Area};
+use App\Enums\{UserLevel};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,13 +24,15 @@ class HomeController extends AbstractController
             ]);
         }
         
+        $areas = $this->getAllChildArea($entityManager);
+        
         if ($user->getLevel() == UserLevel::LEVEL_1) {
             $products = $entityManager->getRepository(Product::class)->findAll();
             $tableGroups = $entityManager->getRepository(TableGroup::class)->findAll();
             
             return $this->render('base.html.twig', [
                 'last_username' => $user->getUsername(),
-                'areas' => Area::getItems(),
+                'areas' => $areas,
                 'default_area' => $user->getArea(),
                 'products' => $products,
                 'table_groups' => $tableGroups,
@@ -69,11 +71,33 @@ class HomeController extends AbstractController
         
         return $this->render('base.html.twig', [
             'last_username' => $user->getUsername(),
-            'areas' => Area::getItems(),
+            'areas' => $areas,
             'default_area' => $user->getArea(),
             'products' => $products,
             'table_groups' => $tableGroups,
             'is_level_1' => $toNextStep
         ]);
     }
+    
+    private function getAllChildArea($entityManager): array
+    {
+        $parentQb = $entityManager->getRepository(Area::class)->createQueryBuilder('a')
+            ->andWhere('a.parent IS NOT NULL');
+        
+        $parents = $parentQb->getQuery()->getResult();
+        $parentIds = [];
+        foreach ($parents as $parent) {
+            if (!in_array($parent->getParent()->getId(), $parentIds)) {
+                $parentIds[] = $parent->getParent()->getId();
+            }
+        }
+        
+        $qb = $entityManager->getRepository(Area::class)->createQueryBuilder('a')
+            ->andWhere('a.id NOT IN (:ids)')
+            ->setParameter('ids', $parentIds)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+    
+    
 }

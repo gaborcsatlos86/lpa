@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Enums\{UserLevel, Area};
+use App\Enums\{UserLevel};
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseUserAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -24,7 +24,7 @@ class UserAdmin extends BaseUserAdmin
             ->addIdentifier('username')
             ->add('email')
             ->add('level')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
             ->add('enabled', null, ['editable' => true])
             ->add('createdAt');
         
@@ -57,13 +57,7 @@ class UserAdmin extends BaseUserAdmin
                     'multiple' => true
                 ]
             ])
-            ->add('area', StringListFilter::class, [
-                'field_type' => ChoiceType::class,
-                'field_options' => [
-                    'choices' => Area::getItems(),
-                    'multiple' => true
-                ]
-            ])
+            ->add('area')
         ;
     }
     
@@ -73,7 +67,7 @@ class UserAdmin extends BaseUserAdmin
             ->add('username')
             ->add('email')
             ->add('level')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
         ;
     }
     
@@ -82,7 +76,7 @@ class UserAdmin extends BaseUserAdmin
         $form
             ->with('general', ['class' => 'col-md-4'])
                 ->add('username')
-                ->add('email', EmailType::class, ['required' => false, 'data' => (!$this->hasSubject() || null === $this->getSubject()->getId()) ? 'no-email@lpa.local' : $this->getSubject()->getEmail()])
+                ->add('email', EmailType::class, ['required' => false, 'data' => (!$this->hasSubject() || null === $this->getSubject()->getId()) ? 'no-email@lpa-audit.local' : $this->getSubject()->getEmail()])
                 ->add('plainPassword', PasswordType::class, [
                     'required' => (!$this->hasSubject() || null === $this->getSubject()->getId()),
                 ])
@@ -92,9 +86,7 @@ class UserAdmin extends BaseUserAdmin
                 ->add('level',ChoiceType::class, [
                     'choices' => array_merge(UserLevel::getItems(), ['---' => null])
                 ])
-                ->add('area',ChoiceType::class, [
-                    'choices' => array_merge(Area::getItems(), ['---' => null])
-                ])
+                ->add('area')
             ->end()
             ->with('roles', ['class' => 'col-md-4'])
                 ->add('realRoles', RolesMatrixType::class, [
@@ -103,5 +95,12 @@ class UserAdmin extends BaseUserAdmin
                     'required' => false,
                 ])
             ->end();
+    }
+    
+    protected function prePersist(object $object): void
+    {
+        if ($object->getEmail() == null) {
+            $object->setEmail($object->getUsername() . '@lpa-audit.local');
+        }
     }
 }

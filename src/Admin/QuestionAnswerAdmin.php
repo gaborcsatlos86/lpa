@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Enums\{Area, AnswerTypes, UserLevel};
+use App\Enums\{UserLevel};
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -35,17 +35,12 @@ final class QuestionAnswerAdmin extends AbstractAdmin
                 ->add('level',ChoiceType::class, [
                     'choices' => array_merge(UserLevel::getItems(), ['---' => null])
                 ])
-                ->add('area',ChoiceType::class, [
-                    'choices' => array_merge(Area::getItems(), ['---' => null])
-                ])
                 ->add('tableGroup')
                 ->add('product')
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
                 ->add('question')
-                ->add('answer', ChoiceType::class, [
-                    'choices' => AnswerTypes::getItems(),
-                ])
+                ->add('answer')
                 ->add('answerDescription', TextareaType::class)
             ->end()
         ;
@@ -55,13 +50,7 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     {
         $datagrid
             ->add('text')
-            ->add('area', StringListFilter::class, [
-                'field_type' => ChoiceType::class,
-                'field_options' => [
-                    'choices' => Area::getItems(),
-                    'multiple' => true
-                ]
-            ])
+            ->add('area')
             ->add('active')
         ;
     }
@@ -71,7 +60,7 @@ final class QuestionAnswerAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id')
             ->add('user.username')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('product')
             ->add('question')
@@ -85,7 +74,7 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     {
         $show
             ->add('user.username')
-            ->add('area', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
+            ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('product')
             ->add('question')

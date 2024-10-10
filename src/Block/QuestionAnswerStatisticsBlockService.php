@@ -6,12 +6,14 @@ namespace App\Block;
 
 use App\Enums\{UserLevel, Area};
 use App\Entity\QuestionAnswer;
+use App\Entity\Area as AreaEntity;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Repository\QuestionAnswerRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Environment;
 use \DateTimeImmutable;
 
@@ -19,6 +21,7 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
 {
     public function __construct(
         Environment $twig,
+        private EntityManagerInterface $em,
         private QuestionAnswerRepositoryInterface $questionAnswerRepository,
         private Pool $pool,
         
@@ -34,10 +37,12 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
         $today = new DateTimeImmutable();
         $yesterday = new DateTimeImmutable('yesterday');
         
+        $areas = $this->initAreas();
+        
         $todayItems = $this->questionAnswerRepository->findByDate($today);
         $yesterdayItems = $this->questionAnswerRepository->findByDate($yesterday);
-        $chart = $this->calculateChart($yesterday, $yesterdayItems);
-        $chart = array_merge($chart, $this->calculateChart($today, $todayItems));
+        $chart = $this->calculateChart($yesterday, $yesterdayItems, $areas);
+        $chart = array_merge($chart, $this->calculateChart($today, $todayItems, $areas));
 
         return $this->renderResponse($blockContext->getTemplate(), [
             'chartFields'   => [
@@ -81,7 +86,33 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
         ]);
     }
     
-    protected function calculateChart(DateTimeImmutable $date, array $items): array
+    protected function initAreas(): array
+    {
+        $areas = [
+            Area::AREA_PRODUCTION => [],
+            Area::AREA_WAREHOUSE => [],
+            Area::AREA_MAINTENANCE => [],
+        ];
+        
+        $prods = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_PRODUCTION]);
+        foreach ($prods as $item) {
+            $areas[Area::AREA_PRODUCTION][] = $item->getId();
+        }
+        
+        $warehouses = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_WAREHOUSE]);
+        foreach ($warehouses as $item) {
+            $areas[Area::AREA_WAREHOUSE][] = $item->getId();
+        }
+        
+        $maintens = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_MAINTENANCE]);
+        foreach ($maintens as $item) {
+            $areas[Area::AREA_MAINTENANCE][] = $item->getId();
+        }
+        
+        return $areas;
+    }
+    
+    protected function calculateChart(DateTimeImmutable $date, array $items, array $areas): array
     {
         $dateString = $date->format('Y-m-d');
         $chartData = [
@@ -100,19 +131,19 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
             /** @var QuestionAnswer $questionAnswer */
             switch ($questionAnswer->getLevel()) {
                 case UserLevel::LEVEL_1:
-                    if ($questionAnswer->getArea() == Area::AREA_PRODUCTION) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_PRODUCTION]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_WAREHOUSE) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_WAREHOUSE]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_MAINTENANCE) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_MAINTENANCE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_PRODUCTION])) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_PRODUCTION]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_WAREHOUSE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_WAREHOUSE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_MAINTENANCE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_1 . '-' . Area::AREA_MAINTENANCE]++;}
                 break;
                 case UserLevel::LEVEL_2:
-                    if ($questionAnswer->getArea() == Area::AREA_PRODUCTION) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_PRODUCTION]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_WAREHOUSE) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_WAREHOUSE]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_MAINTENANCE) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_MAINTENANCE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_PRODUCTION])) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_PRODUCTION]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_WAREHOUSE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_WAREHOUSE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_MAINTENANCE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_2 . '-' . Area::AREA_MAINTENANCE]++;}
                 break;
                 case UserLevel::LEVEL_3:
-                    if ($questionAnswer->getArea() == Area::AREA_PRODUCTION) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_PRODUCTION]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_WAREHOUSE) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_WAREHOUSE]++;}
-                    if ($questionAnswer->getArea() == Area::AREA_MAINTENANCE) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_MAINTENANCE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_PRODUCTION])) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_PRODUCTION]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_WAREHOUSE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_WAREHOUSE]++;}
+                    if (in_array($questionAnswer->getArea()->getId(), $areas[Area::AREA_MAINTENANCE])) {$chartData[$dateString . '-' . UserLevel::LEVEL_3 . '-' . Area::AREA_MAINTENANCE]++;}
             }
         }
         

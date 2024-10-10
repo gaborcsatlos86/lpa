@@ -19,8 +19,8 @@ class Question extends AbstractBaseEntity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
     
-    #[ORM\Column(type: Types::STRING)]
-    private string $area;
+    #[ORM\ManyToOne(targetEntity: Area::class)]
+    private Area $area;
     
     #[ORM\Column(type: Types::STRING)]
     private string $level;
@@ -55,12 +55,12 @@ class Question extends AbstractBaseEntity
         return $this;
     }
     
-    public function getArea(): string
+    public function getArea(): Area
     {
         return $this->area;
     }
     
-    public function setArea(string $area): self
+    public function setArea(Area $area): self
     {
         $this->area = $area;
         
