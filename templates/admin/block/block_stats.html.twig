@@ -11,18 +11,24 @@
             <div class="answer-sums">
             	<h4>{{ 'Top 3 NOK' }}</h4>
             	<ul>
+            		{% if tops.NOK.top1.question.text %}
             		<li>
             			{{ tops.NOK.top1.question.text }}: <strong>{{ tops.NOK.top1.value }}</strong><br>
             			{% if tops.NOK.top1.byArea %}{% for areaData in tops.NOK.top1.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
+            		{% endif %}
+            		{% if tops.NOK.top2.question.text %}
             		<li>
             			{{ tops.NOK.top2.question.text }}: <strong>{{ tops.NOK.top2.value }}</strong><br>
             			{% if tops.NOK.top2.byArea %}{% for areaData in tops.NOK.top2.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
+            		{% endif %}
+            		{% if tops.NOK.top3.question.text %}
             		<li>
             			{{ tops.NOK.top3.question.text }}: <strong>{{ tops.NOK.top3.value }}</strong><br>
             			{% if tops.NOK.top3.byArea %}{% for areaData in tops.NOK.top3.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
+            		{% endif %}
             	</ul>
             	<h4>{{ 'Top 3 Corr' }}</h4>
             	<ul>

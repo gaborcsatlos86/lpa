@@ -258,23 +258,29 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
         if (isset($topNok['top3']['question'])) {
             $topNok['top3']['question'] = $this->em->getRepository(Question::class)->find($topNok['top3']['question']);
         }
-        foreach ($topNok['top1']['byArea'] as $areaId => $areaValue) {
-            $topNok['top1']['byArea'][$areaId] = [
-                'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
-                'value' => $areaValue
-            ];
+        if (isset($topNok['top1']['byArea'])) {
+            foreach ($topNok['top1']['byArea'] as $areaId => $areaValue) {
+                $topNok['top1']['byArea'][$areaId] = [
+                    'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
+                    'value' => $areaValue
+                ];
+            }
         }
-        foreach ($topNok['top2']['byArea'] as $areaId => $areaValue) {
-            $topNok['top2']['byArea'][$areaId] = [
-                'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
-                'value' => $areaValue
-            ];
+        if (isset($topNok['top2']['byArea'])) {
+            foreach ($topNok['top2']['byArea'] as $areaId => $areaValue) {
+                $topNok['top2']['byArea'][$areaId] = [
+                    'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
+                    'value' => $areaValue
+                ];
+            }
         }
-        foreach ($topNok['top3']['byArea'] as $areaId => $areaValue) {
-            $topNok['top3']['byArea'][$areaId] = [
-                'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
-                'value' => $areaValue
-            ];
+        if (isset($topNok['top3']['byArea'])) {
+            foreach ($topNok['top3']['byArea'] as $areaId => $areaValue) {
+                $topNok['top3']['byArea'][$areaId] = [
+                    'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
+                    'value' => $areaValue
+                ];
+            }
         }
         if (isset($topCorr['top1']['question'])) {
             $topCorr['top1']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top1']['question']);
