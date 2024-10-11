@@ -249,9 +249,15 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
                 ];
             }
         }
-        $topNok['top1']['question'] = $this->em->getRepository(Question::class)->find($topNok['top1']['question']);
-        $topNok['top2']['question'] = $this->em->getRepository(Question::class)->find($topNok['top2']['question']);
-        $topNok['top3']['question'] = $this->em->getRepository(Question::class)->find($topNok['top3']['question']);
+        if (isset($topNok['top1']['question'])) {
+            $topNok['top1']['question'] = $this->em->getRepository(Question::class)->find($topNok['top1']['question']);
+        }
+        if (isset($topNok['top2']['question'])) {
+            $topNok['top2']['question'] = $this->em->getRepository(Question::class)->find($topNok['top2']['question']);
+        }
+        if (isset($topNok['top3']['question'])) {
+            $topNok['top3']['question'] = $this->em->getRepository(Question::class)->find($topNok['top3']['question']);
+        }
         foreach ($topNok['top1']['byArea'] as $areaId => $areaValue) {
             $topNok['top1']['byArea'][$areaId] = [
                 'area' => $this->em->getRepository(AreaEntity::class)->find($areaId),
@@ -270,10 +276,15 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
                 'value' => $areaValue
             ];
         }
-        
-        $topCorr['top1']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top1']['question']);
-        $topCorr['top2']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top2']['question']);
-        $topCorr['top3']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top3']['question']);
+        if (isset($topCorr['top1']['question'])) {
+            $topCorr['top1']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top1']['question']);
+        }
+        if ($topCorr['top2']['question']) {
+            $topCorr['top2']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top2']['question']);
+        }
+        if (isset($topCorr['top3']['question'])) {
+            $topCorr['top3']['question'] = $this->em->getRepository(Question::class)->find($topCorr['top3']['question']);
+        }
         
         return [
             AnswerTypes::ANSWER_NOK => $topNok,
