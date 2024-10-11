@@ -32,15 +32,21 @@
             	</ul>
             	<h4>{{ 'Top 3 Corr' }}</h4>
             	<ul>
+            		{% if tops.Corr.top1.question.text %}
             		<li>
             			{{ tops.Corr.top1.question.text }}: <strong>{{ tops.Corr.top1.value }}</strong>
             		</li>
+            		{% endif %}
+            		{% if tops.Corr.top1.question.text %}
             		<li>
             			{{ tops.Corr.top2.question.text }}: <strong>{{ tops.Corr.top2.value }}</strong>
             		</li>
+            		{% endif %}
+            		{% if tops.Corr.top1.question.text %}
             		<li>
             			{{ tops.Corr.top3.question.text }}: <strong>{{ tops.Corr.top3.value }}</strong>
             		</li>
+            		{% endif %}
             	</ul>
             </div>
 			<canvas id="answerChart" style="width:100%;max-width:700px"></canvas>
