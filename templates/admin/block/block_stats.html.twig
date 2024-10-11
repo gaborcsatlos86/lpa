@@ -13,15 +13,15 @@
             	<ul>
             		<li>
             			{{ tops.NOK.top1.question.text }}: <strong>{{ tops.NOK.top1.value }}</strong><br>
-            			{% for areaData in tops.NOK.top1.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            			{% if tops.NOK.top1.byArea %}{% for areaData in tops.NOK.top1.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
             		<li>
             			{{ tops.NOK.top2.question.text }}: <strong>{{ tops.NOK.top2.value }}</strong><br>
-            			{% for areaData in tops.NOK.top2.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            			{% if tops.NOK.top2.byArea %}{% for areaData in tops.NOK.top2.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
             		<li>
             			{{ tops.NOK.top3.question.text }}: <strong>{{ tops.NOK.top3.value }}</strong><br>
-            			{% for areaData in tops.NOK.top3.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            			{% if tops.NOK.top3.byArea %}{% for areaData in tops.NOK.top3.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
             		</li>
             	</ul>
             	<h4>{{ 'Top 3 Corr' }}</h4>
