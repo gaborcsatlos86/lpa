@@ -33,8 +33,8 @@ class QuestionAnswer extends AbstractBaseEntity
     #[ORM\Column(type: Types::STRING)]
     private string $answer;
     
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $answerDescription;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $answerDescription = null;
     
     public function getUser(): User
     {

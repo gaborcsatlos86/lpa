@@ -8,6 +8,35 @@
     <div class="small-box {{ settings.color }}">
         <div class="inner">
             <h3>{{ 'Question Answers Statistics'|trans() }}</h3>
+            <div class="answer-sums">
+            	<h4>{{ 'Top 3 NOK' }}</h4>
+            	<ul>
+            		<li>
+            			{{ tops.NOK.top1.question.text }}: <strong>{{ tops.NOK.top1.value }}</strong><br>
+            			{% for areaData in tops.NOK.top1.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            		</li>
+            		<li>
+            			{{ tops.NOK.top2.question.text }}: <strong>{{ tops.NOK.top2.value }}</strong><br>
+            			{% for areaData in tops.NOK.top2.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            		</li>
+            		<li>
+            			{{ tops.NOK.top3.question.text }}: <strong>{{ tops.NOK.top3.value }}</strong><br>
+            			{% for areaData in tops.NOK.top3.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}
+            		</li>
+            	</ul>
+            	<h4>{{ 'Top 3 Corr' }}</h4>
+            	<ul>
+            		<li>
+            			{{ tops.Corr.top1.question.text }}: <strong>{{ tops.Corr.top1.value }}</strong>
+            		</li>
+            		<li>
+            			{{ tops.Corr.top2.question.text }}: <strong>{{ tops.Corr.top2.value }}</strong>
+            		</li>
+            		<li>
+            			{{ tops.Corr.top3.question.text }}: <strong>{{ tops.Corr.top3.value }}</strong>
+            		</li>
+            	</ul>
+            </div>
 			<canvas id="answerChart" style="width:100%;max-width:700px"></canvas>
             <script type="text/javascript">
                 var xValues = [{% for label in chartFields %}"{{ label|trans() }}",{% endfor %}];
