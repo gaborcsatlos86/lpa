@@ -22,6 +22,7 @@ class UserAdmin extends BaseUserAdmin
     {
         $list
             ->addIdentifier('username')
+            ->add('name')
             ->add('email')
             ->add('level')
             ->add('area')
@@ -49,6 +50,7 @@ class UserAdmin extends BaseUserAdmin
         $filter
             ->add('id')
             ->add('username')
+            ->add('name')
             ->add('email')
             ->add('level', StringListFilter::class, [
                 'field_type' => ChoiceType::class,
@@ -65,6 +67,7 @@ class UserAdmin extends BaseUserAdmin
     {
         $show
             ->add('username')
+            ->add('name')
             ->add('email')
             ->add('level')
             ->add('area')
@@ -76,6 +79,7 @@ class UserAdmin extends BaseUserAdmin
         $form
             ->with('general', ['class' => 'col-md-4'])
                 ->add('username')
+                ->add('name')
                 ->add('email', EmailType::class, ['required' => false, 'data' => (!$this->hasSubject() || null === $this->getSubject()->getId()) ? 'no-email@lpa-audit.local' : $this->getSubject()->getEmail()])
                 ->add('plainPassword', PasswordType::class, [
                     'required' => (!$this->hasSubject() || null === $this->getSubject()->getId()),

@@ -1,6 +1,7 @@
 Name: Név
 Product Number: Cikkszám
 Product List: Termék lista
+User: Felhasználó
 
 Product: Termék
 Product Create: Termék létrehozás
@@ -35,6 +36,9 @@ Corr: Corr
 Comment: Megjegyzés
 Question Answer List: Válaszok Lista
 Question Answer: Válaszok
+Question External Id: Kérdés kódja
+Area Name: Terület
+Question Text: Kérdés
 
 Please sign in: Kérlek, jelentkezz be
 Username: Felhasználó név
@@ -58,6 +62,7 @@ To start the audit, please select the target platform.: Az audit megkezdéséhez
 
 pelda.dolgozo: pelda.dolgozo
 Level: Szint
+External Id: Külső azonosító
 Save: Mentés
 Submit: Küldés
 Justification: Indoklás

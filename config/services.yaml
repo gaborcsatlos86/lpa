@@ -27,11 +27,6 @@ services:
         class: App\Admin\AreaAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Area, manager_type: orm, label: Area, group: System, icon: '<i class="fa fa-gears"></i>' }
-
-    admin.product:
-        class: App\Admin\ProductAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Product, manager_type: orm, label: Product, group: System, icon: '<i class="fa fa-gears"></i>' }
             
     admin.table_group:
         class: App\Admin\TableGroupAdmin
@@ -55,5 +50,7 @@ services:
               manager_type: orm
               label: Statistics
             
+    App\Service\Admin\DecoratingDataSource:
+        decorates: 'sonata.admin.data_source.orm'
     
     

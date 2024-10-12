@@ -33,6 +33,7 @@ final class QuestionAdmin extends AbstractAdmin
                 ->add('active', CheckboxType::class, ['required' => false])
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
+                ->add('externalId')
                 ->add('area')
                 ->add('level',ChoiceType::class, [
                     'choices' => UserLevel::getItems()
@@ -51,6 +52,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $datagrid
             ->add('text')
+            ->add('externalId')
             ->add('comment')
             ->add('area')
             ->add('level', StringListFilter::class, [
@@ -68,6 +70,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('text')
+            ->add('externalId')
             ->add('comment')
             ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
@@ -81,6 +84,7 @@ final class QuestionAdmin extends AbstractAdmin
     {
         $show
             ->add('text')
+            ->add('externalId')
             ->add('comment')
             ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])

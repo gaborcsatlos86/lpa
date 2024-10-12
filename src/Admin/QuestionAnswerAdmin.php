@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\StringListFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\{TextareaType, ChoiceType};
 
 final class QuestionAnswerAdmin extends AbstractAdmin
@@ -49,9 +50,12 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
         $datagrid
-            ->add('text')
+            ->add('user')
+            ->add('level')
             ->add('area')
-            ->add('active')
+            ->add('question')
+            ->add('answer')
+            ->add('createdAt', DateRangeFilter::class)
         ;
     }
     
@@ -63,6 +67,7 @@ final class QuestionAnswerAdmin extends AbstractAdmin
             ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('product')
+            ->add('question.externalId')
             ->add('question')
             ->add('answer', FieldDescriptionInterface::TYPE_TRANS)
             ->add('answerDescription')
@@ -82,5 +87,10 @@ final class QuestionAnswerAdmin extends AbstractAdmin
             ->add('answerDescription')
             ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
         ;
+    }
+    
+    protected function configureExportFields(): array
+    {
+        return ['user.username', 'area.name', 'level', 'product', 'question.externalId', 'question.text', 'answer', 'answerDescription', 'createdAt'];
     }
 }

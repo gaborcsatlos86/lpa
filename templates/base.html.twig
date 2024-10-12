@@ -42,7 +42,7 @@
 	          		<label for="area">{{ 'Area'|trans() }}: </label>
 	          		<select id="area" name="area">
 	          			{% for area in areas %}
-	          				<option value="{{ area.id }}"{% if default_area.id == area.id %} selected{% endif %}>{{ area.name }}</options>
+	          				<option value="{{ area.id }}"{% if default_area %}{% if default_area.id == area.id %} selected{% endif %}{% endif %}>{{ area.name }}</options>
 	          			{% endfor %}
 	          		</select>
 	          		{% if table_groups  %}
@@ -52,13 +52,8 @@
 	          				<option value="{{ table_group.id }}">{{ table_group }}</options>
 	          			{% endfor %}
 	          		</select>
-	          		{% endif %}
-	          		{% if products %}
 	          		<label for="product">{{ 'Product'|trans() }}: </label>
-	          		<select id="product">
-	          			{% for product in products %}
-	          				<option value="{{ product.id }}">{{ product }}</options>
-	          			{% endfor %}
+	          		<input type="text" name="product" id="product">
 	          		</select>
 	          		{% endif %}
 	          		<br />

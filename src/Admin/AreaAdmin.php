@@ -20,6 +20,7 @@ final class AreaAdmin extends AbstractAdmin
         $form
             ->add('name', TextType::class)
             ->add('parent')
+            ->add('externalId')
             ->add('type',ChoiceType::class, [
                 'choices' => AreaEnum::getItems()
             ])
@@ -31,6 +32,7 @@ final class AreaAdmin extends AbstractAdmin
     {
         $datagrid
             ->add('name')
+            ->add('externalId')
             ->add('parent')
             ->add('active')
             ->add('type', StringListFilter::class, [
@@ -47,6 +49,7 @@ final class AreaAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('name')
+            ->add('externalId')
             ->add('parent')
             ->add('type')
             ->add('active')
@@ -57,6 +60,7 @@ final class AreaAdmin extends AbstractAdmin
     {
         $show
             ->add('name')
+            ->add('externalId')
             ->add('parent')
             ->add('type')
             ->add('active')

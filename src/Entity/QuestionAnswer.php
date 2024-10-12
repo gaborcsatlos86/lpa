@@ -24,8 +24,8 @@ class QuestionAnswer extends AbstractBaseEntity
     #[ORM\ManyToOne(targetEntity: TableGroup::class)]
     private TableGroup $tableGroup;
     
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private Product $product;
+    #[ORM\Column(type: Types::STRING)]
+    private string $product;
     
     #[ORM\ManyToOne(targetEntity: Question::class)]
     private Question $question;
@@ -56,7 +56,7 @@ class QuestionAnswer extends AbstractBaseEntity
         return $this->tableGroup;
     }
 
-    public function getProduct(): Product
+    public function getProduct(): string
     {
         return $this->product;
     }
@@ -104,7 +104,7 @@ class QuestionAnswer extends AbstractBaseEntity
         return $this;
     }
 
-    public function setProduct(Product $product): self
+    public function setProduct(string $product): self
     {
         $this->product = $product;
         

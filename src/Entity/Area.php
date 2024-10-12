@@ -21,6 +21,9 @@ class Area extends AbstractBaseEntity
     
     #[ORM\Column(type: Types::STRING)]
     private string $type;
+
+    #[ORM\Column(type: Types::STRING)]
+    private string $externalId;
     
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $active;
@@ -58,6 +61,18 @@ class Area extends AbstractBaseEntity
     public function setType(string $type): self
     {
         $this->type = $type;
+        
+        return $this;
+    }
+    
+    public function getExternalId(): string
+    {
+        return $this->externalId;
+    }
+    
+    public function setExternalId(string $externalId): self
+    {
+        $this->externalId = $externalId;
         
         return $this;
     }

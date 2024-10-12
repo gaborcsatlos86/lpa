@@ -25,6 +25,9 @@ class Question extends AbstractBaseEntity
     #[ORM\Column(type: Types::STRING)]
     private string $level;
     
+    #[ORM\Column(type: Types::STRING)]
+    private string $externalId;
+    
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $active;
     
@@ -75,6 +78,18 @@ class Question extends AbstractBaseEntity
     public function setLevel(string $level): self
     {
         $this->level = $level;
+        
+        return $this;
+    }
+    
+    public function getExternalId(): string
+    {
+        return $this->externalId;
+    }
+    
+    public function setExternalId(string $externalId): self
+    {
+        $this->externalId = $externalId;
         
         return $this;
     }

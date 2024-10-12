@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Portal;
 
 
-use App\Entity\{User, Product, TableGroup, QuestionAnswer, Area};
+use App\Entity\{User, TableGroup, QuestionAnswer, Area};
 use App\Enums\{UserLevel};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, Request};
@@ -27,20 +27,18 @@ class HomeController extends AbstractController
         $areas = $this->getAllChildArea($entityManager);
         
         if ($user->getLevel() == UserLevel::LEVEL_1) {
-            $products = $entityManager->getRepository(Product::class)->findAll();
             $tableGroups = $entityManager->getRepository(TableGroup::class)->findAll();
             
             return $this->render('base.html.twig', [
-                'last_username' => $user->getUsername(),
+                'last_username' => $user->getName(),
                 'areas' => $areas,
                 'default_area' => $user->getArea(),
-                'products' => $products,
                 'table_groups' => $tableGroups,
                 'is_level_1' => true
             ]);
         }
         
-        $products = $tableGroups = null;
+        $tableGroups = null;
         $toNextStep = false;
         
         if ($request->getMethod() == Request::METHOD_POST) {
@@ -53,27 +51,22 @@ class HomeController extends AbstractController
                 ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d').'%')
                 ->getQuery()->getResult();
             
-            $tableGroups = $products = [];
+            $tableGroups = [];
             foreach ($userAnswers as $answer) {
                 if (!isset($tableGroups[$answer->getTableGroup()->getId()])) {
                     $tableGroups[$answer->getTableGroup()->getId()] = $answer->getTableGroup();
                 }
-                if (!isset($products[$answer->getProduct()->getId()])) {
-                    $products[$answer->getProduct()->getId()] = $answer->getProduct();
-                }
             }
             $tableGroups = array_values($tableGroups);
-            $products = array_values($products);
-            if (!empty($tableGroups) && !empty($products)) {
+            if (!empty($tableGroups)) {
                 $toNextStep = true;
             }
         }
         
         return $this->render('base.html.twig', [
-            'last_username' => $user->getUsername(),
+            'last_username' => $user->getName(),
             'areas' => $areas,
             'default_area' => $user->getArea(),
-            'products' => $products,
             'table_groups' => $tableGroups,
             'is_level_1' => $toNextStep
         ]);

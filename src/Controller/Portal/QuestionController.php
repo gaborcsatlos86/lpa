@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Portal;
 
 
-use App\Entity\{User, Product, TableGroup, Question, QuestionAnswer, Area};
+use App\Entity\{User, TableGroup, Question, QuestionAnswer, Area};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +18,7 @@ class QuestionController extends AbstractController
     ){}
     
     #[Route('/form/{area}/{tableGroup}/{product}', name: 'app_question')]
-    public function index(Area $area, TableGroup $tableGroup, Product $product, Request $request): Response
+    public function index(Area $area, TableGroup $tableGroup, string $product, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -65,7 +65,7 @@ class QuestionController extends AbstractController
         ]); 
     }
     
-    private function handlingLevel(User $user, Area $area, TableGroup $tableGroup, Product $product): array
+    private function handlingLevel(User $user, Area $area, TableGroup $tableGroup, string $product): array
     {
         $questions = $this->entityManager->getRepository(Question::class)->findBy(['area' => $area, 'level' => $user->getLevel(), 'active' => true]);
         

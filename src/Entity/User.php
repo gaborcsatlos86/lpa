@@ -18,11 +18,26 @@ class User extends BaseUser
     #[ORM\Column(type: Types::INTEGER)]
     protected $id;
     
+    #[ORM\Column(type: Types::STRING)]
+    protected string $name;
+
     #[ORM\Column(type: Types::STRING, nullable: true)]
     protected ?string $level = null;
     
     #[ORM\ManyToOne(targetEntity: Area::class)]
     protected ?Area $area = null;
+    
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        
+        return $this;
+    }
     
     public function getLevel(): ?string
     {

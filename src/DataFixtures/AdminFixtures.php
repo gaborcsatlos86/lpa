@@ -15,6 +15,7 @@ class AdminFixtures extends Fixture
         $admin = new User();
         $admin->setEmail('gabor.csatlos86@gmail.com');
         $admin->setUsername('web-admin');
+        $admin->setName('Web Admin');
         $admin->setPlainPassword('DemoLogin678');
         $admin->setEnabled(true);
         $admin->setSuperAdmin(true)
@@ -23,6 +24,7 @@ class AdminFixtures extends Fixture
         
         $admin2 = new User();
         $admin2->setEmail('info@csabainformatika.net');
+        $admin2->setName('LPA Admin');
         $admin2->setUsername('lpa-admin');
         $admin2->setPlainPassword('DemoLogin678');
         $admin2->setEnabled(true);
