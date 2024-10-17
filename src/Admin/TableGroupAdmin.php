@@ -18,6 +18,7 @@ final class TableGroupAdmin extends AbstractAdmin
         $form
             ->add('name', TextType::class)
             ->add('code', TextType::class)
+            ->add('area')
         ;
     }
     
@@ -26,12 +27,17 @@ final class TableGroupAdmin extends AbstractAdmin
         $datagrid
             ->add('name')
             ->add('code')
+            ->add('area')
         ;
     }
     
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('name');
+        $list
+            ->addIdentifier('name')
+            ->add('code')
+            ->add('area')
+        ;
     }
     
     protected function configureShowFields(ShowMapper $show): void
@@ -39,6 +45,7 @@ final class TableGroupAdmin extends AbstractAdmin
         $show
             ->add('name')
             ->add('code')
+            ->add('area')
         ;
     }
 }

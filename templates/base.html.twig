@@ -42,15 +42,13 @@
 	          		<label for="area">{{ 'Area'|trans() }}: </label>
 	          		<select id="area" name="area">
 	          			{% for area in areas %}
-	          				<option value="{{ area.id }}"{% if default_area %}{% if default_area.id == area.id %} selected{% endif %}{% endif %}>{{ area.name }}</options>
+	          				<option value="{{ area.id }}">{{ area.name }}</options>
 	          			{% endfor %}
 	          		</select>
-	          		{% if table_groups  %}
+	          		{% if table_groups %}
 	          		<label for="table_group">{{ 'Table Group'|trans() }}: </label>
 	          		<select id="table_group">
-	          			{% for table_group in table_groups %}
-	          				<option value="{{ table_group.id }}">{{ table_group }}</options>
-	          			{% endfor %}
+	          			
 	          		</select>
 	          		<label for="product">{{ 'Product'|trans() }}: </label>
 	          		<input type="text" name="product" id="product" required>
@@ -86,6 +84,31 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script>
 			    $(document).ready(function(){
+			    {% if last_username %}
+			    	{% if table_groups %}
+			        $("#area").on('change', function(event){
+			        	var area = event.target.value;
+			        	
+			        	$("#table_group option").each(function(){
+			        		$(this).remove();
+			        	});
+			        	{% for table_group in table_groups %}
+		        	    if (area == "{{ table_group.area.id }}") {
+		        	    	var o = new Option("{{ table_group }}", "{{ table_group.id }}");
+							/// jquerify the DOM object 'o' so we can use the html method
+							$(o).html("{{ table_group }}");
+							$("#table_group").append(o);
+		        	    }
+	          			{% endfor %}
+			        });
+			        
+			        {% endif %}
+			        {% if default_area %}
+			        $("#area").val('{{ default_area.id }}');
+			        $("#area").trigger("change");
+			        {% endif %}
+		        {% endif %}
+			    
 			        $(".answer-select").on('change', function(event){
 			            var targetId = event.target.id.replace("answer", "justif");
 			            var inputId = event.target.id.replace("answer", "comment");

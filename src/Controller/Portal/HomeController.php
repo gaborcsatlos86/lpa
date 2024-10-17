@@ -27,7 +27,7 @@ class HomeController extends AbstractController
         $areas = $this->getAllChildArea($entityManager);
         
         if ($user->getLevel() == UserLevel::LEVEL_1) {
-            $tableGroups = $entityManager->getRepository(TableGroup::class)->findAll();
+            $tableGroups = $entityManager->getRepository(TableGroup::class)->findBy(['deletedAt' => null]);
             
             return $this->render('base.html.twig', [
                 'last_username' => $user->getName(),
