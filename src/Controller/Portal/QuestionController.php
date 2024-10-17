@@ -61,6 +61,8 @@ class QuestionController extends AbstractController
         
         return $this->render('portal/question/index.html.twig', [
             'last_username' => $user->getUsername(),
+            'table_groups' => [],
+            'default_area' => $user->getArea(),
             'questions' => $questions
         ]); 
     }
