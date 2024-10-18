@@ -1,6 +1,6 @@
 sonata_admin:
-    title: 'CsWeb Admin'
-    title_logo: web_system_logo.png
+    title: 'Hirschmann – LPA'
+    title_logo: HCC_logo.jpg
     assets:
         extra_javascripts:
             - bundles/sonatapage/app.js

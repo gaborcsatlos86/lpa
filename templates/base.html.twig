@@ -35,8 +35,8 @@
 		{% block main %}
 	      <section class="jumbotron text-center">
 	        <div class="container">
-	          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
-	          <p>{{ 'To start the audit, please select the target platform.'|trans() }}</p>
+	          <h1 class="jumbotron-heading">{{ 'Hirschmann – LPA'|trans() }}</h1>
+	          <p>{{ 'Layered Process Audit'|trans() }}</p>
 	          {% if last_username %}
 	          	<form method="post" data-turbo="false" id="selector" {% if is_level_1 %}onsubmit="event.preventDefault();  myFunction(this);"{% endif %}>
 	          		<label for="area">{{ 'Area'|trans() }}: </label>
@@ -60,7 +60,7 @@
 	          		<button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Start'|trans() }}</button>
 	          	</form>
 	          {% else %}
-	          <p class="lead text-muted">{{ 'Opening text...'|trans() }}</p>
+	          <p class="lead text-muted"></p>
 	          {% endif %}
 	        </div>
 	      </section>
