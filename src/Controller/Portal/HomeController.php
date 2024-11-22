@@ -26,49 +26,14 @@ class HomeController extends AbstractController
         
         $areas = $this->getAllChildArea($entityManager);
         
-        if ($user->getLevel() == UserLevel::LEVEL_1) {
-            $tableGroups = $entityManager->getRepository(TableGroup::class)->findBy(['deletedAt' => null]);
-            
-            return $this->render('base.html.twig', [
-                'last_username' => $user->getName(),
-                'areas' => $areas,
-                'default_area' => $user->getArea(),
-                'table_groups' => $tableGroups,
-                'is_level_1' => true
-            ]);
-        }
-        
-        $tableGroups = null;
-        $toNextStep = false;
-        
-        if ($request->getMethod() == Request::METHOD_POST) {
-            $userAnswers = $entityManager->getRepository(QuestionAnswer::class)->createQueryBuilder('qa')
-                ->andWhere('qa.area = :area')
-                ->andWhere('qa.level = :level')
-                ->andWhere('qa.createdAt LIKE :today')
-                ->setParameter('area', $request->request->get('area'))
-                ->setParameter('level', ($user->getLevel() == UserLevel::LEVEL_2) ? UserLevel::LEVEL_1 : UserLevel::LEVEL_2)
-                ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d').'%')
-                ->getQuery()->getResult();
-            
-            $tableGroups = [];
-            foreach ($userAnswers as $answer) {
-                if (!isset($tableGroups[$answer->getTableGroup()->getId()])) {
-                    $tableGroups[$answer->getTableGroup()->getId()] = $answer->getTableGroup();
-                }
-            }
-            $tableGroups = array_values($tableGroups);
-            if (!empty($tableGroups)) {
-                $toNextStep = true;
-            }
-        }
+        $tableGroups = $entityManager->getRepository(TableGroup::class)->findBy(['deletedAt' => null]);
         
         return $this->render('base.html.twig', [
             'last_username' => $user->getName(),
             'areas' => $areas,
             'default_area' => $user->getArea(),
             'table_groups' => $tableGroups,
-            'is_level_1' => $toNextStep
+            'is_level_1' => true
         ]);
     }
     
