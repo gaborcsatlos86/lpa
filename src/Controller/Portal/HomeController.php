@@ -21,6 +21,7 @@ class HomeController extends AbstractController
         if (!$user instanceof User) {
             return $this->render('base.html.twig', [
                 'last_username' => '',
+                'user_level' => null
             ]);
         }
         
@@ -28,8 +29,13 @@ class HomeController extends AbstractController
         
         $tableGroups = $entityManager->getRepository(TableGroup::class)->findBy(['deletedAt' => null]);
         
+        if ($request->getSession()->has('actual-audit')) {
+            $request->getSession()->remove('actual-audit');
+        }
+        
         return $this->render('base.html.twig', [
             'last_username' => $user->getName(),
+            'user_level' => $user->getLevel(),
             'areas' => $areas,
             'default_area' => $user->getArea(),
             'table_groups' => $tableGroups,

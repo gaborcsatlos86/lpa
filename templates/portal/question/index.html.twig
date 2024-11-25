@@ -2,35 +2,48 @@
 
 {% block main %}
 	<section class="jumbotron text-center">
-	        <div class="container">
-	          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
-	          <p>{{ '....' }}</p>
-	          {% if questions %}
-			    <form method="post" data-turbo="false">
-			      	{% for question in questions %}
-			      	<div id="question{{ loop.index }}" class="tab-pane fade{% if loop.index == 1  %} active show{% endif %}">
-			          <h3>{{ question.text|raw }}</h3>
-			          {% if question.comment %}
-			          <p>{{ question.comment|raw }}</p>
-			          {% endif %}
-			          <select class="form-select middle-with answer-select" name="answer[question{{ question.id }}]" id="question{{ question.id }}_answer" required="required">
-			          	<option value=""></option>
-			          {% for answer in question.availableAnswers %}
-			          	<option value="{{ answer }}">{{ answer|trans() }}</option>
-			          {% endfor %}
-			          </select>
-			          <br />
-			          <div id="question{{ question.id }}_justif" class="justification hidden">
-			          	<label for="question{{ question.id }}_comment" class="sr-only">{{ 'Justification'|trans() }}:</label>
-			          	<input type="text" class="form-control" id="question{{ question.id }}_comment" name="comment[question{{ question.id }}]" >
-			          </div>
-			        </div>
-		          	{% endfor %}
-			      </div>
-			      <button id="send-button" class="btn btn-lg btn-primary btn-block" type="submit" disabled>{{ 'Submit'|trans() }}</button>
-			    </form>
-			    {% else %}
-			    <h3>{{ 'Thank you for today work!'|trans() }}</h3>
-			    {% endif %}
-	    </section>
+        <div class="container">
+          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
+          <p>{{ 'Layered Process Audit'|trans() }}</p>
+          {% if user_level %}
+          <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
+          {% endif %}
+          {% if area %}
+          <p>
+          	{{ 'Actual area:'|trans() }} <b>{{ area.name}}</b><br />
+          	{{ 'Actual table group:'|trans() }} <b>{{ tableGroup.name}}</b><br />
+          	{{ 'Actual product:'|trans() }} <b>{{ product}}</b>
+          </p>
+          {% endif %}
+          {% if questions %}
+		    <form method="post" data-turbo="false">
+		      	{% for question in questions %}
+		      	<div id="question{{ loop.index }}" class="tab-pane fade{% if loop.index == 1  %} active show{% endif %}">
+		          <h3>{{ question.text|raw }}</h3>
+		          {% if question.comment %}
+		          <p>{{ question.comment|raw }}</p>
+		          {% endif %}
+		          <select class="form-select middle-with answer-select" name="answer[question{{ question.id }}]" id="question{{ question.id }}_answer" required="required">
+		          	<option value=""></option>
+		          {% for answer in question.availableAnswers %}
+		          	<option value="{{ answer }}">{{ answer|trans() }}</option>
+		          {% endfor %}
+		          </select>
+		          <br />
+		          <div id="question{{ question.id }}_justif" class="justification hidden">
+		          	<label for="question{{ question.id }}_comment" class="sr-only">{{ 'Justification'|trans() }}:</label>
+		          	<input type="text" class="form-control" id="question{{ question.id }}_comment" name="comment[question{{ question.id }}]" >
+		          </div>
+		        </div>
+	          	{% endfor %}
+		      </div>
+		      <button id="send-button" class="btn btn-lg btn-primary btn-block" type="submit" disabled>{{ 'Submit'|trans() }}</button>
+		    </form>
+	    {% else %}
+	    <h4><b>{{ 'Thank you for today work!'|trans() }}</b></h4>
+		    {% if auditFinaleResult %}
+		<p>{{ 'Audit final result:'|trans() }} <b>{{ auditFinaleResult }}</b></p>
+		    {% endif %}
+	    {% endif %}
+    </section>
 {% endblock %}

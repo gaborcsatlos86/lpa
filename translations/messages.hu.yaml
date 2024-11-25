@@ -103,6 +103,8 @@ Parent: Szülő
 Type: Típus
 Layered Process Audit: Layered Process Audit
 Hirschmann – LPA: Hirschmann – LPA
-
-
-
+'Welcome on ': 'Üdvözlöm a(z) '
+'Actual area:': 'Aktuális terület:'
+'Actual table group:': 'Aktuális asztalcsoport:'
+'Actual product:': 'Aktuális termék / folyamat:'
+'Audit final result:': 'Audit végerdménye:'

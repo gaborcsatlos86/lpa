@@ -37,7 +37,11 @@
 	        <div class="container">
 	          <h1 class="jumbotron-heading">{{ 'Hirschmann – LPA'|trans() }}</h1>
 	          <p>{{ 'Layered Process Audit'|trans() }}</p>
+	          {% if user_level %}
+	          <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
+	          {% endif %}
 	          {% if last_username %}
+	          
 	          	<form method="post" data-turbo="false" id="selector" {% if is_level_1 %}onsubmit="event.preventDefault();  myFunction(this);"{% endif %}>
 	          		<label for="area">{{ 'Area'|trans() }}: </label>
 	          		<select id="area" name="area">
