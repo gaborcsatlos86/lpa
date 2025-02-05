@@ -120,7 +120,8 @@ class Question extends AbstractBaseEntity
     
     public function __toString(): string
     {
-        return substr($this->text, 0, 20);
+        return $this->text;
+        //return substr($this->text, 0, 20);
     }
     
     #[ORM\PrePersist]
