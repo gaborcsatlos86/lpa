@@ -92,4 +92,9 @@ final class QuestionAdmin extends AbstractAdmin
             ->add('active')
         ;
     }
+    
+    protected function configureExportFields(): array
+    {
+        return ['id', 'text', 'externalId', 'comment', 'area.name', 'level', 'availableAnswers', 'active', 'updatedAt', 'createdAt'];
+    }
 }
