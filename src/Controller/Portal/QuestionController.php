@@ -18,8 +18,8 @@ class QuestionController extends AbstractController
         private EntityManagerInterface $entityManager
     ){}
     
-    #[Route('/form/{area}/{tableGroup}/{product}', name: 'app_question')]
-    public function index(Area $area, TableGroup $tableGroup, string $product, Request $request): Response
+    #[Route('/form/{area}/{tableGroup}', name: 'app_question')]
+    public function index(Area $area, TableGroup $tableGroup, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -32,6 +32,10 @@ class QuestionController extends AbstractController
         if (!$request->getSession()->has('actual-audit')) {
             $request->getSession()->set('actual-audit', []);
         }
+        if (!$request->query->has('product')) {
+            return $this->redirectToRoute('app_home');
+        }
+        $product = $request->query->get('product');
         
         if ($request->getMethod() == Request::METHOD_POST) {
             $postData = $request->request->all();
