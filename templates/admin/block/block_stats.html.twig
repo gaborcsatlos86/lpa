@@ -3,79 +3,40 @@
 {% set translation_domain = settings.translation_domain ?? admin.translationDomain %}
 
 {% block block %}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <!-- small box -->
-    <div class="small-box {{ settings.color }}">
+	<script src="fullcalendar-6.1.19/dist/index.global.min.js"></script>
+	<script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+      	let elementArea = document.getElementById('area');
+      	elementArea.value = 3;
+        elementArea.dispatchEvent(new Event('change'));
+      });
+      
+      function initCalendar(areaId) {
+      	$.get("{{ admin.generateUrl('dataList') }}?area="+areaId, function(dataEvents){
+      		var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              initialView: 'dayGridMonth',
+              locale: 'hu',
+              firstDay: 1,
+              events: dataEvents
+            });
+            calendar.render();
+      	});
+      }
+    </script>
+    <div class="{{ settings.color }}">
         <div class="inner">
             <h3>{{ 'Question Answers Statistics'|trans() }}</h3>
-            <div class="answer-sums">
-            	<h4>{{ 'Top 3 NOK' }}</h4>
-            	<ul>
-            		{% if tops.NOK.top1.question %}
-            		<li>
-            			{{ tops.NOK.top1.question.text }}: <strong>{{ tops.NOK.top1.value }}</strong><br>
-            			{% if tops.NOK.top1.byArea %}{% for areaData in tops.NOK.top1.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
-            		</li>
-            		{% endif %}
-            		{% if tops.NOK.top2.question %}
-            		<li>
-            			{{ tops.NOK.top2.question.text }}: <strong>{{ tops.NOK.top2.value }}</strong><br>
-            			{% if tops.NOK.top2.byArea %}{% for areaData in tops.NOK.top2.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
-            		</li>
-            		{% endif %}
-            		{% if tops.NOK.top3.question %}
-            		<li>
-            			{{ tops.NOK.top3.question.text }}: <strong>{{ tops.NOK.top3.value }}</strong><br>
-            			{% if tops.NOK.top3.byArea %}{% for areaData in tops.NOK.top3.byArea %}{{ areaData.area.name }} ({{ areaData.value }}), {% endfor %}{% endif %}
-            		</li>
-            		{% endif %}
-            	</ul>
-            	<h4>{{ 'Top 3 Corr' }}</h4>
-            	<ul>
-            		{% if tops.Corr.top1.question %}
-            		<li>
-            			{{ tops.Corr.top1.question.text }}: <strong>{{ tops.Corr.top1.value }}</strong>
-            		</li>
-            		{% endif %}
-            		{% if tops.Corr.top1.question %}
-            		<li>
-            			{{ tops.Corr.top2.question.text }}: <strong>{{ tops.Corr.top2.value }}</strong>
-            		</li>
-            		{% endif %}
-            		{% if tops.Corr.top1.question %}
-            		<li>
-            			{{ tops.Corr.top3.question.text }}: <strong>{{ tops.Corr.top3.value }}</strong>
-            		</li>
-            		{% endif %}
-            	</ul>
+            <div>
+            	<label for="area">Terület: </label>
+            	<select name="area" id="area" onchange="initCalendar(this.value);">
+            		{% for area in areas %}
+            		<option value="{{ area.id }}">{{ area.name }}</option>
+            		{% endfor %}
+            	</select>
             </div>
-			<canvas id="answerChart" style="width:100%;max-width:700px"></canvas>
-            <script type="text/javascript">
-                var xValues = [{% for label in chartFields %}"{{ label|trans() }}",{% endfor %}];
-				var yValues = [{% for chartValue in chart %}{{ chartValue }},{% endfor %}];
-				var barColors = ["light-red", "light-green","light-blue","red","green","blue","dark-red","dark-green","dark-blue","light-red", "light-green","light-blue","red","green","blue","dark-red","dark-green","dark-blue"];
-				
-				new Chart("answerChart", {
-				  type: "bar",
-				  data: {
-				    labels: xValues,
-				    datasets: [{
-				      backgroundColor: barColors,
-				      data: yValues
-				    }]
-				  },
-				  options: {
-				    legend: {display: false},
-				    title: {
-				      display: true,
-				      text: "{{ 'Sendt answers'|trans() }}"
-				    }
-				  }
-				});
-            </script>
-        </div>
-        <div class="icon">
-            {{ settings.icon|parse_icon }}
+            <div id='calendar'></div>
         </div>
         <a href="{{ admin.generateUrl('list', {filter: settings.filters}) }}" class="small-box-footer">
             {{ 'stats_view_more'|trans({}, 'SonataAdminBundle') }} <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
