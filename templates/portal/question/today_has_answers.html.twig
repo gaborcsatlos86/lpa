@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+	<section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
+          <p>{{ 'Layered Process Audit'|trans() }}</p>
+          {% if user_level %}
+          <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
+          {% endif %}
+          {% if area %}
+          <p>
+          	{{ 'Actual area:'|trans() }} <b>{{ area.name}}</b><br />
+          	{{ 'Actual table group:'|trans() }} <b>{{ tableGroup.name}}</b><br />
+          	{{ 'Actual product:'|trans() }} <b>{{ product}}</b>
+          </p>
+          {% endif %}
+          <h4>A mai napra már van rögzítve audit ezen a területen, így is elvégzed?</h4>
+          <a class="btn btn-lg btn-primary btn-block" href="{{ path('app_question', {area: area.id, tableGroup: tableGroup.id}) }}?product={{ product }}&force=1">Igen</a>
+          <a class="btn btn-lg btn-primary btn-block" href="{{ path('app_home') }}">Nem</a>
+    </section>
+{% endblock %}

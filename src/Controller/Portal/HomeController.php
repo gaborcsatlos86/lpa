@@ -32,7 +32,12 @@ class HomeController extends AbstractController
         if ($request->getSession()->has('actual-audit')) {
             $request->getSession()->remove('actual-audit');
         }
-        
+        if ($request->getSession()->has('questions')) {
+            $request->getSession()->remove('questions');
+        }
+        if ($request->getSession()->has('today-summary')) {
+            $request->getSession()->remove('today-summary');
+        }
         return $this->render('base.html.twig', [
             'last_username' => $user->getName(),
             'user_level' => $user->getLevel(),
