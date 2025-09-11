@@ -7,12 +7,17 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\{PrePersistEventArgs, PreUpdateEventArgs};
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: "name", columns: ["name"])]
+#[Gedmo\SoftDeleteable]
 class Area extends AbstractBaseEntity
 {
+    use SoftDeleteable;
+    
     #[ORM\Column(type: Types::STRING)]
     private string $name;
     
@@ -28,6 +33,8 @@ class Area extends AbstractBaseEntity
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $active;
     
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    protected $deletedAt;
     
     public function getName(): string
     {

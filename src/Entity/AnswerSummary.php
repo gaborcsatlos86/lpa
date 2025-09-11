@@ -7,17 +7,12 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\{PrePersistEventArgs, PreUpdateEventArgs};
+use \DateTimeImmutable;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
-class QuestionAnswer extends AbstractBaseEntity
+class AnswerSummary extends AbstractBaseEntity
 {
-    #[ORM\ManyToOne(targetEntity: AnswerSummary::class)]
-    private ?AnswerSummary $answerSummary = null;
-    
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    private User $user;
-    
     #[ORM\Column(type: Types::STRING)]
     private string $level;
     
@@ -30,24 +25,18 @@ class QuestionAnswer extends AbstractBaseEntity
     #[ORM\Column(type: Types::STRING)]
     private string $product;
     
-    #[ORM\ManyToOne(targetEntity: Question::class)]
-    private Question $question;
-    
     #[ORM\Column(type: Types::STRING)]
     private string $answer;
     
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $answerDescription = null;
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $corrNum = 0;
     
-    public function getAnswerSummary(): ?AnswerSummary
-    {
-        return $this->answerSummary;
-    }
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private DateTimeImmutable $periodStart;
     
-    public function getUser(): User
-    {
-        return $this->user;
-    }
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $periodEnd = null;
+        
     
     public function getLevel(): string
     {
@@ -69,33 +58,24 @@ class QuestionAnswer extends AbstractBaseEntity
         return $this->product;
     }
 
-    public function getQuestion(): Question
-    {
-        return $this->question;
-    }
-
     public function getAnswer(): string
     {
         return $this->answer;
     }
-
-    public function getAnswerDescription(): ?string
+    
+    public function getCorrNum(): int
     {
-        return $this->answerDescription;
+        return $this->corrNum;
     }
     
-    public function setAnswerSummary(AnswerSummary $answerSummary): self
+    public function getPeriodStart(): DateTimeImmutable
     {
-        $this->answerSummary = $answerSummary;
-        
-        return $this;
+        return $this->periodStart;
     }
-
-    public function setUser(User $user): self
+    
+    public function getPeriodEnd(): ?DateTimeImmutable
     {
-        $this->user = $user;
-        
-        return $this;
+        return $this->periodEnd;
     }
 
     public function setLevel(string $level): self
@@ -126,30 +106,44 @@ class QuestionAnswer extends AbstractBaseEntity
         return $this;
     }
 
-    public function setQuestion(Question $question): self
-    {
-        $this->question = $question;
-        
-        return $this;
-    }
-
     public function setAnswer(string $answer): self
     {
         $this->answer = $answer;
         
         return $this;
     }
-
-    public function setAnswerDescription(?string $answerDescription): self
+    
+    public function setCorrNum(int $corrNum): self
     {
-        $this->answerDescription = $answerDescription;
+        $this->corrNum = $corrNum;
+        
+        return $this;
+    }
+    
+    public function increaseCorrNum(): self
+    {
+        $this->corrNum++;
+        
+        return $this;
+    }
+    
+    public function setPeriodStart(DateTimeImmutable $periodStart): self
+    {
+        $this->periodStart = $periodStart;
+        
+        return $this;
+    }
+    
+    public function setPeriodEnd(?DateTimeImmutable $periodEnd = null): self
+    {
+        $this->periodEnd = $periodEnd;
         
         return $this;
     }
     
     public function __toString(): string
     {
-        return $this->answer . ' - ' . $this->question->getText();
+        return $this->area->getName() . ' ('. $this->level . ') ' . $this->product. ': ' . $this->answer . ' ['. $this->periodStart->format('Y-m-d') . (($this->periodEnd instanceof DateTimeImmutable ) ? ' - '. $this->periodEnd->format('m-d') : '').  ']';
     }
     
     #[ORM\PrePersist]
