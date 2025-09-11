@@ -1,0 +1,36 @@
+<h1>Értesítés audit miatt</h1>
+<p>
+Terület: {{ area.name }}<br>
+Asztalcsopoprt: {{ tableGroup.name }}<br>
+Termék / Folyamat: {{ product }}<br>
+Auditot végző: {{ user.name }}
+</p>
+<h3>Összes beküldött válasz:</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Dolgozó neve</th>
+			<th>Terület</th>
+			<th>Szint</th>
+			<th>Termék / Folyamat</th>
+			<th>Kérdés kódja</th>
+			<th>Kérdés</th>
+			<th>Válasz</th>
+			<th>Indoklás</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for answer in answers %}
+		<tr>
+			<td>{{ answer.user.username }}</td>
+			<td>{{ answer.area.name }}</td>
+			<td>{{ answer.level }}</td>
+			<td>{{ answer.product }}</td>
+			<td>{{ answer.question.externalId }}</td>
+			<td>{{ answer.question.text }}</td>
+			<td>{{ answer.answer }}</td>
+			<td>{{ answer.answerDescription }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
