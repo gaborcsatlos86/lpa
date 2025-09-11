@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\NullFilter;
 
 
 final class TableGroupAdmin extends AbstractAdmin
@@ -20,7 +21,6 @@ final class TableGroupAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('delete')
         ;
     }
     
@@ -49,6 +49,10 @@ final class TableGroupAdmin extends AbstractAdmin
             ->add('name')
             ->add('code')
             ->add('area')
+            ->add('deleted', NullFilter::class, [
+                'field_name' => 'deletedAt',
+                'inverse' => true
+            ])
         ;
     }
     
@@ -58,7 +62,18 @@ final class TableGroupAdmin extends AbstractAdmin
             ->addIdentifier('name')
             ->add('code')
             ->add('area')
+            ->add('deletedAt')
         ;
+        $list->add(ListMapper::NAME_ACTIONS, ListMapper::TYPE_ACTIONS, [
+            'translation_domain' => 'SonataAdminBundle',
+            'actions' => [
+                'delete' => [
+                    'template' => 'admin/list/list_delete_action.html.twig'
+                ],
+            ],
+        ]);
+        $filters = $this->getModelManager()->getEntityManager($this->getClass())->getFilters();
+        $filters->disable('soft_delete');
     }
     
     protected function configureShowFields(ShowMapper $show): void

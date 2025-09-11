@@ -108,3 +108,16 @@ Hirschmann – LPA: Hirschmann – LPA
 'Actual table group:': 'Aktuális asztalcsoport:'
 'Actual product:': 'Aktuális termék / folyamat:'
 'Audit final result:': 'Audit végerdménye:'
+
+'Answer Summary': 'Statisztika Összefoglaló'
+'Answer Summary List': 'Statisztika Összefoglaló Lista'
+'Period Start': 'Összefoglaló kezdete'
+'Period End': 'Összefoglaló vége'
+
+'Deleted At': Törölve ekkor
+'Deleted': Törölt
+
+form.label_level: Szint
+show.label_level: Szint
+list.label_level: Szint
+filter.label_level: Szint

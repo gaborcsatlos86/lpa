@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\UserBundle\Form\Type\RolesMatrixType;
 use Symfony\Component\Form\Extension\Core\Type\{EmailType, PasswordType, ChoiceType};
-use Sonata\DoctrineORMAdminBundle\Filter\StringListFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\StringFilter;
 
 class UserAdmin extends BaseUserAdmin
 {
@@ -24,7 +24,7 @@ class UserAdmin extends BaseUserAdmin
             ->addIdentifier('username')
             ->add('name')
             ->add('email')
-            ->add('level')
+            ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('area')
             ->add('enabled', null, ['editable' => true])
             ->add('createdAt');
@@ -52,11 +52,11 @@ class UserAdmin extends BaseUserAdmin
             ->add('username')
             ->add('name')
             ->add('email')
-            ->add('level', StringListFilter::class, [
+            ->add('level', StringFilter::class, [
                 'field_type' => ChoiceType::class,
                 'field_options' => [
                     'choices' => UserLevel::getItems(),
-                    'multiple' => true
+                    'multiple' => false
                 ]
             ])
             ->add('area')
@@ -69,7 +69,7 @@ class UserAdmin extends BaseUserAdmin
             ->add('username')
             ->add('name')
             ->add('email')
-            ->add('level')
+            ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('area')
         ;
     }

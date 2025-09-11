@@ -43,6 +43,11 @@ services:
         tags:
             - { name: sonata.admin, model_class: App\Entity\QuestionAnswer, manager_type: orm, label: Question Answer, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
             
+    admin.answer_summary:
+        class: App\Admin\AnswerSummaryAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\AnswerSummary, controller: App\Controller\Admin\AnswerSummaryCRUDController,  manager_type: orm, label: Answer Summary, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
+            
     admin.question_answer_statistics:
         class: App\Block\QuestionAnswerStatisticsBlockService
         tags:

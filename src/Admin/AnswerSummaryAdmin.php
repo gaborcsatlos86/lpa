@@ -12,37 +12,36 @@ use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\StringFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Symfony\Component\Form\Extension\Core\Type\{TextareaType, ChoiceType};
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Sonata\Form\Type\DatePickerType;
 
-final class QuestionAnswerAdmin extends AbstractAdmin
+final class AnswerSummaryAdmin extends AbstractAdmin
 {
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('create')
-            ->remove('edit')
             ->remove('batch')
             ->remove('delete')
         ;
+        $collection->add('dataList');
     }
     
     protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->with('general', ['class' => 'col-md-6'])
-                ->add('user')
                 ->add('level',ChoiceType::class, [
                     'choices' => array_merge(UserLevel::getItems(), ['---' => null])
                 ])
+                ->add('area')
                 ->add('tableGroup')
                 ->add('product')
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
-                ->add('question')
                 ->add('answer')
-                ->add('answerDescription', TextareaType::class)
+                ->add('periodStart', DatePickerType::class)
+                ->add('periodEnd', DatePickerType::class)
             ->end()
         ;
     }
@@ -50,18 +49,13 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
         $datagrid
-            ->add('user')
-            ->add('level', StringFilter::class, [
-                'field_type' => ChoiceType::class,
-                'field_options' => [
-                    'choices' => UserLevel::getItems(),
-                    'multiple' => false
-                ]
-            ])
+            ->add('level')
             ->add('area')
-            ->add('question')
+            ->add('tableGroup')
+            ->add('product')
             ->add('answer')
-            ->add('answerSummary')
+            ->add('periodStart', DateRangeFilter::class)
+            ->add('periodEnd', DateRangeFilter::class)
             ->add('createdAt', DateRangeFilter::class)
         ;
     }
@@ -70,35 +64,35 @@ final class QuestionAnswerAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add('user.username')
             ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('product')
-            ->add('question.externalId')
-            ->add('question')
+            ->add('tableGroup')
             ->add('answer', FieldDescriptionInterface::TYPE_TRANS)
-            ->add('answerDescription')
+            ->add('periodStart', FieldDescriptionInterface::TYPE_DATE)
+            ->add('periodEnd', FieldDescriptionInterface::TYPE_DATE)
             ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
-            ->add('answerSummary')
         ;
+        $filters = $this->getModelManager()->getEntityManager($this->getClass())->getFilters();
+        $filters->disable('soft_delete');
     }
     
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('user.username')
             ->add('area')
             ->add('level', FieldDescriptionInterface::TYPE_TRANS, ['translation_domain' => 'messages'])
             ->add('product')
-            ->add('question')
+            ->add('tableGroup')
             ->add('answer', FieldDescriptionInterface::TYPE_TRANS)
-            ->add('answerDescription')
+            ->add('periodStart', FieldDescriptionInterface::TYPE_DATE)
+            ->add('periodEnd', FieldDescriptionInterface::TYPE_DATE)
             ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
         ;
     }
     
     protected function configureExportFields(): array
     {
-        return ['user.username', 'area.name', 'level', 'product', 'question.externalId', 'question.text', 'answer', 'answerDescription', 'createdAt'];
+        return [ 'area.name', 'level', 'tableGroup', 'product', 'answer', 'periodStart', 'periodEnd', 'createdAt'];
     }
 }
