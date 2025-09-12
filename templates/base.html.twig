@@ -120,7 +120,7 @@
 			            var targetInp = $('#'+inputId);
 			            targetDiv.removeClass("hidden");
 			            targetInp.attr('required', 'required');
-			            if (event.target.value != 'NOK') {
+			            if (event.target.value != 'NOK' && event.target.value != 'Corr') {
 			            	targetDiv.addClass("hidden");
 			            	targetInp.attr('required', false);
 		            	}
