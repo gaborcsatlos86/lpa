@@ -86,13 +86,13 @@ class UserAdmin extends BaseUserAdmin
                 ])
                 ->add('enabled', null)
             ->end()
-            ->with('lpa', ['class' => 'col-md-4'])
+            ->with('lpa', ['class' => 'col-md-2'])
                 ->add('level',ChoiceType::class, [
                     'choices' => array_merge(UserLevel::getItems(), ['---' => null])
                 ])
                 ->add('area')
             ->end()
-            ->with('roles', ['class' => 'col-md-4'])
+            ->with('roles', ['class' => 'col-md-6'])
                 ->add('realRoles', RolesMatrixType::class, [
                     'label' => false,
                     'multiple' => true,
