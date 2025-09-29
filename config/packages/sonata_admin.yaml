@@ -1,6 +1,11 @@
 sonata_admin:
     title: 'Hirschmann – LPA'
     title_logo: HCC_logo.jpg
+    security:
+        handler: sonata.admin.security.handler.role
+
+        role_admin: ROLE_ADMIN
+        role_super_admin: ROLE_SUPER_ADMIN
     assets:
         extra_javascripts:
 #            - bundles/sonatapage/app.js
