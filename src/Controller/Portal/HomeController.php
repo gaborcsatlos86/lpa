@@ -19,10 +19,7 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return $this->render('base.html.twig', [
-                'last_username' => '',
-                'user_level' => null
-            ]);
+            return $this->render('portal/home/no_user.html.twig');
         }
         
         $areas = $this->getAllChildArea($entityManager);
@@ -38,7 +35,7 @@ class HomeController extends AbstractController
         if ($request->getSession()->has('today-summary')) {
             $request->getSession()->remove('today-summary');
         }
-        return $this->render('base.html.twig', [
+        return $this->render('portal/home/index.html.twig', [
             'last_username' => $user->getName(),
             'user_level' => $user->getLevel(),
             'areas' => $areas,

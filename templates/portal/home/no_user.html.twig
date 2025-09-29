@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block hello %}
+      <span class="hello">{{ 'Please, sign in!'|trans() }}</span>
+      <a href="/login" class="btn btn-secondary navbar-brand d-flex align-items-center">{{ 'Login'|trans() }}</a>
+{% endblock %}
+
+{% block main %}
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">{{ 'Hirschmann – LPA'|trans() }}</h1>
+      <p>{{ 'Layered Process Audit'|trans() }}</p>
+      <p class="lead text-muted"></p>
+    </div>
+  </section>
+{% endblock %}
+
+{% block lower_scripts %}
+
+<script src="/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+{% endblock %}

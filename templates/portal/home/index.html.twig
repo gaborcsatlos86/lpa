@@ -1,0 +1,77 @@
+{% extends "base.html.twig" %}
+
+{% block hello %}
+    <span class="hello">{{ 'Hello'|trans() }} {{ last_username }}!</span>
+	<a href="/logout" class="btn btn-secondary navbar-brand d-flex align-items-center">{{ 'Logout'|trans() }}</a>
+{% endblock %}
+
+{% block main %}
+	<section class="jumbotron text-center">
+    	<div class="container">
+            <h1 class="jumbotron-heading">{{ 'Hirschmann – LPA'|trans() }}</h1>
+            <p>{{ 'Layered Process Audit'|trans() }}</p>
+            <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
+            <form method="post" data-turbo="false" id="selector" {% if is_level_1 %}onsubmit="event.preventDefault();  myFunction(this);"{% endif %}>
+          		<label for="area">{{ 'Area'|trans() }}: </label>
+          		<select id="area" name="area">
+          			<option value="">-- Válassz területet! --</options>
+      			{% for area in areas %}
+      				<option value="{{ area.id }}">{{ area.name }}</options>
+      			{% endfor %}
+          		</select>
+          		{% if table_groups %}
+          		<label for="table_group">{{ 'Table Group'|trans() }}: </label>
+          		<select id="table_group" name="table_group" required>
+          			
+          		</select>
+          		<label for="product">{{ 'Product'|trans() }}: </label>
+          		<input type="text" name="product" id="product" required>
+          		</select>
+          		{% endif %}
+          		<br />
+          		<br />
+          		<br />
+          		<button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Start'|trans() }}</button>
+      		</form>
+    	</div>
+	</section>
+{% endblock %}
+
+{% block lower_scripts %}
+<script>
+	function myFunction(form) {
+		window.location.href = "/form/"+document.getElementById('area').value+"/"+document.getElementById('table_group').value+"?product="+document.getElementById('product').value;
+	}
+</script>
+
+<script src="/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="/jquery.min.js" id="jquery-core-js" data-rocket-status="executed"></script>
+<script src="/jquery-migrate.min.js" id="jquery-migrate-js" data-rocket-status="executed"></script>
+<script>
+    $(document).ready(function(){
+        $("#area").on('change', function(event){
+        	var area = event.target.value;
+        	jQuery.get("/area-check/"+area, function(checkArea){
+        		if (checkArea.status && !confirm("Mai naphoz már lett rögzítve audit ehhez a területhez!\nRögzítesz?")) {
+        			$("#area").val('');
+        			return ;
+        		}
+        	});
+        	
+        	$("#table_group option").each(function(){
+        		$(this).remove();
+        	});
+        	{% for table_group in table_groups %}
+    	    if (area == "{{ table_group.area.id }}") {
+    	    	var o = new Option("{{ table_group }}", "{{ table_group.id }}");
+				/// jquerify the DOM object 'o' so we can use the html method
+				$(o).html("{{ table_group }}");
+				$("#table_group").append(o);
+    	    }
+  			{% endfor %}
+        });
+        
+    });
+</script>
+{% endblock %}

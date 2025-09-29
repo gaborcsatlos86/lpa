@@ -19,7 +19,7 @@
         <header>
 	      <div class="navbar navbar-dark bg-dark box-shadow">
 	        <div class="container d-flex justify-content-between">
-	        	
+	        {% block hello %}
 	          {% if last_username %}
 		          <span class="hello">{{ 'Hello'|trans() }} {{ last_username }}!</span>
 		          <a href="/logout" class="btn btn-secondary navbar-brand d-flex align-items-center">{{ 'Logout'|trans() }}</a>
@@ -27,6 +27,7 @@
 		          <span class="hello">{{ 'Please, sign in!'|trans() }}</span>
 		          <a href="/login" class="btn btn-secondary navbar-brand d-flex align-items-center">{{ 'Login'|trans() }}</a>
 	          {% endif %}
+            {% endblock %}
 	        </div>
 	      </div>
 	    </header>
@@ -37,35 +38,7 @@
 	        <div class="container">
 	          <h1 class="jumbotron-heading">{{ 'Hirschmann – LPA'|trans() }}</h1>
 	          <p>{{ 'Layered Process Audit'|trans() }}</p>
-	          {% if user_level %}
-	          <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
-	          {% endif %}
-	          {% if last_username %}
 	          
-	          	<form method="post" data-turbo="false" id="selector" {% if is_level_1 %}onsubmit="event.preventDefault();  myFunction(this);"{% endif %}>
-	          		<label for="area">{{ 'Area'|trans() }}: </label>
-	          		<select id="area" name="area">
-	          			{% for area in areas %}
-	          				<option value="{{ area.id }}">{{ area.name }}</options>
-	          			{% endfor %}
-	          		</select>
-	          		{% if table_groups %}
-	          		<label for="table_group">{{ 'Table Group'|trans() }}: </label>
-	          		<select id="table_group" name="table_group" required>
-	          			
-	          		</select>
-	          		<label for="product">{{ 'Product'|trans() }}: </label>
-	          		<input type="text" name="product" id="product" required>
-	          		</select>
-	          		{% endif %}
-	          		<br />
-	          		<br />
-	          		<br />
-	          		<button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Start'|trans() }}</button>
-	          	</form>
-	          {% else %}
-	          <p class="lead text-muted"></p>
-	          {% endif %}
 	        </div>
 	      </section>
 	    {% endblock %}
@@ -79,65 +52,15 @@
 		      </div>
 	    </footer>
         {% endblock %}
-        <script>
-			function myFunction(form) {
-				window.location.href = "/form/"+document.getElementById('area').value+"/"+document.getElementById('table_group').value+"?product="+document.getElementById('product').value;
-			}
-			</script>
+        
+        {% block lower_scripts %}
         <script src="/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script>
-			    $(document).ready(function(){
-			    {% if last_username %}
-			    	{% if table_groups %}
-			        $("#area").on('change', function(event){
-			        	var area = event.target.value;
-			        	
-			        	$("#table_group option").each(function(){
-			        		$(this).remove();
-			        	});
-			        	{% for table_group in table_groups %}
-		        	    if (area == "{{ table_group.area.id }}") {
-		        	    	var o = new Option("{{ table_group }}", "{{ table_group.id }}");
-							/// jquerify the DOM object 'o' so we can use the html method
-							$(o).html("{{ table_group }}");
-							$("#table_group").append(o);
-		        	    }
-	          			{% endfor %}
-			        });
-			        
-			        {% endif %}
-			        {% if default_area %}
-			        $("#area").val('{{ default_area.id }}');
-			        $("#area").trigger("change");
-			        {% endif %}
-		        {% endif %}
+		    $(document).ready(function(){
 			    
-			        $(".answer-select").on('change', function(event){
-			            var targetId = event.target.id.replace("answer", "justif");
-			            var inputId = event.target.id.replace("answer", "comment");
-			            var targetDiv = $('#'+targetId);
-			            var targetInp = $('#'+inputId);
-			            targetDiv.removeClass("hidden");
-			            targetInp.attr('required', 'required');
-			            if (event.target.value != 'NOK' && event.target.value != 'Corr') {
-			            	targetDiv.addClass("hidden");
-			            	targetInp.attr('required', false);
-		            	}
-		            	var inputs = $(".answer-select");
-		            	var buttonDisabled = false;
-		            	for(var i = 0; i < inputs.length; i++){
-						    if ($(inputs[i]).val() == '') {
-						    	buttonDisabled = true;
-					    	}
-						}
-						var buttonSend = $("#send-button");
-						buttonSend.attr("disabled", true);
-						if (!buttonDisabled) {
-							buttonSend.attr("disabled", false);
-						}
-			        });
-			    });
-			</script>
+		    });
+		</script>
+		{% endblock %}
     </body>
 </html>

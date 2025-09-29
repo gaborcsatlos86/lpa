@@ -1,5 +1,10 @@
 {% extends "base.html.twig" %}
 
+{% block hello %}
+      <span class="hello">{{ 'Hello'|trans() }} {{ last_username }}!</span>
+      <a href="/logout" class="btn btn-secondary navbar-brand d-flex align-items-center">{{ 'Logout'|trans() }}</a>
+{% endblock %}
+
 {% block main %}
 	<section class="jumbotron text-center">
         <div class="container">
@@ -46,4 +51,37 @@
 		    {% endif %}
 	    {% endif %}
     </section>
+{% endblock %}
+
+{% block lower_scripts %}
+<script src="/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+        $(".answer-select").on('change', function(event){
+            var targetId = event.target.id.replace("answer", "justif");
+            var inputId = event.target.id.replace("answer", "comment");
+            var targetDiv = $('#'+targetId);
+            var targetInp = $('#'+inputId);
+            targetDiv.removeClass("hidden");
+            targetInp.attr('required', 'required');
+            if (event.target.value != 'NOK' && event.target.value != 'Corr') {
+            	targetDiv.addClass("hidden");
+            	targetInp.attr('required', false);
+        	}
+        	var inputs = $(".answer-select");
+        	var buttonDisabled = false;
+        	for(var i = 0; i < inputs.length; i++){
+			    if ($(inputs[i]).val() == '') {
+			    	buttonDisabled = true;
+		    	}
+			}
+			var buttonSend = $("#send-button");
+			buttonSend.attr("disabled", true);
+			if (!buttonDisabled) {
+				buttonSend.attr("disabled", false);
+			}
+        });
+    });
+</script>
 {% endblock %}
