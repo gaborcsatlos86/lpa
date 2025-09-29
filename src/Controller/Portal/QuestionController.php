@@ -8,7 +8,7 @@ namespace App\Controller\Portal;
 use App\Entity\{User, TableGroup, Question, QuestionAnswer, Area, AnswerSummary};
 use App\Enums\{UserLevel, AnswerTypes, Area as AreaEnum};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Response, Request};
+use Symfony\Component\HttpFoundation\{Response, Request, JsonResponse};
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use \DateTimeImmutable;
@@ -145,6 +145,23 @@ class QuestionController extends AbstractController
         ]); 
     }
     
+    #[Route('/area-check/{area}', name: 'app_area_check')]
+    public function areaCheck(Area $area, Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->json(['status' => false]);
+        }
+        $userAnswers = $this->entityManager->getRepository(QuestionAnswer::class)->createQueryBuilder('qa')
+            ->andWhere('qa.area = :area')
+            ->andWhere('qa.createdAt LIKE :today')
+            ->setParameter('area', $area)
+            ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d').'%')
+            ->getQuery()->getResult();
+        
+        return $this->json(['status' => !empty($userAnswers)]);
+    }
+    
     protected function hasTodayAnswer(User $user, Area $area, TableGroup $tableGroup, string $product): bool
     {
         $userAnswers = $this->entityManager->getRepository(QuestionAnswer::class)->createQueryBuilder('qa')
@@ -207,11 +224,7 @@ class QuestionController extends AbstractController
             ->setParameter('tableGroup', $answer->getTableGroup())
             ->setParameter('product', $answer->getProduct());
         
-        if ($answer->getLevel() == UserLevel::LEVEL_3) {
-            $qb = $qb->andWhere(':date BETWEEN ansu.periodStart AND ansu.periodEnd');
-        } else {
-            $qb = $qb->andWhere('ansu.periodStart LIKE :date');
-        }
+        $qb = $qb->andWhere('ansu.periodStart LIKE :date');
         $qb = $qb->setParameter('date', $answer->getCreatedAt()->format('Y-m-d').'%');
         return $qb->getQuery()->getResult();
     }
@@ -230,11 +243,7 @@ class QuestionController extends AbstractController
             if ($questionAnswer->getAnswer() == AnswerTypes::ANSWER_CORR) {
                 $answerSummary->increaseCorrNum();
             }
-            if ($questionAnswer->getLevel() == UserLevel::LEVEL_3) {
-                $answerSummary = $this->calulateFirstAndLastDayOfWeek($answerSummary, $questionAnswer->getCreatedAt());
-            } else {
-                $answerSummary->setPeriodStart($questionAnswer->getCreatedAt());
-            }
+            $answerSummary->setPeriodStart($questionAnswer->getCreatedAt());
             $this->entityManager->persist($answerSummary);
             if ($questionAnswer->getAnswerSummary() == null) {
                 $questionAnswer->setAnswerSummary($answerSummary);

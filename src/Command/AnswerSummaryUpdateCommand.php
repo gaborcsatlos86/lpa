@@ -64,11 +64,7 @@ class AnswerSummaryUpdateCommand extends Command
                 if ($questionAnswer->getAnswer() == AnswerTypes::ANSWER_CORR) {
                     $answerSummary->increaseCorrNum();
                 }
-                if ($level == UserLevel::LEVEL_3) {
-                    $answerSummary = $this->calulateFirstAndLastDayOfWeek($answerSummary, $questionAnswer->getCreatedAt());
-                } else {
-                    $answerSummary->setPeriodStart($questionAnswer->getCreatedAt());
-                }
+                $answerSummary->setPeriodStart($questionAnswer->getCreatedAt());
                 $this->em->persist($answerSummary);
                 if ($questionAnswer->getAnswerSummary() == null) {
                     $questionAnswer->setAnswerSummary($answerSummary);
@@ -151,11 +147,7 @@ class AnswerSummaryUpdateCommand extends Command
             ->setParameter('tableGroup', $answer->getTableGroup())
             ->setParameter('product', $answer->getProduct());
         
-        if ($answer->getLevel() == UserLevel::LEVEL_3) {
-            $qb = $qb->andWhere(':date BETWEEN ansu.periodStart AND ansu.periodEnd');
-        } else {
-            $qb = $qb->andWhere('ansu.periodStart LIKE :date');
-        }
+        $qb = $qb->andWhere('ansu.periodStart LIKE :date');
         $qb = $qb->setParameter('date', $answer->getCreatedAt()->format('Y-m-d').'%');
         return $qb->getQuery()->getResult();
     }
