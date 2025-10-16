@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
     	<link href="/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         
         <title>{% block title %}LPA Audit{% endblock %}</title>
@@ -38,9 +37,23 @@
 		        <input type="hidden" name="_target_path" value="/"> #}
 		
 		        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'login'|trans() }}</button>
-		        <p class="mt-5 mb-3 text-muted">© 2024</p>
 		    </form>
 		{% endblock %}
+		<footer class="mt-auto">
+          <div class="container">
+            <div class="row">
+                <div class="col-md-2 text-left">
+    	          <a href="#">{{ 'Back to top'|trans() }}</a>
+    	        </div>
+              <div class="col-md-8 text-center">
+                <p>&copy; Created By <a href="http://cswebsolution.hu">Cs Web Solution</a></p>
+              </div>
+              <div class="col-md-2 text-right">
+    	          
+    	        </div>
+            </div>
+          </div>
+        </footer>
         <script src="/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>

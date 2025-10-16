@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
     	<link href="/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         
         <title>{% block title %}LPA Audit{% endblock %}</title>
@@ -43,14 +42,21 @@
 	      </section>
 	    {% endblock %}
 	    </main>
-        
-        <footer class="text-muted">
-		      <div class="container">
-		        <p class="float-right">
-		          <a href="#">{{ 'Back to top'|trans() }}</a>
-		        </p>
-		      </div>
-	    </footer>
+        <footer class="mt-auto">
+          <div class="container">
+            <div class="row">
+                <div class="col-md-2 text-left">
+    	          <a href="#">{{ 'Back to top'|trans() }}</a>
+    	        </div>
+              <div class="col-md-8 text-center">
+                <p>&copy; Created By <a href="http://cswebsolution.hu">Cs Web Solution</a></p>
+              </div>
+              <div class="col-md-2 text-right">
+    	          
+    	        </div>
+            </div>
+          </div>
+        </footer>
         {% endblock %}
         
         {% block lower_scripts %}
