@@ -40,7 +40,7 @@ class AlertLevel2ToUppersCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $needsDebug = $input->hasArgument('debug');
+        $needsDebug = ($input->hasArgument('debug') && $input->getArgument('debug') == 'debug');
         $areas = $this->initAreas();
         $today = new DateTimeImmutable('today');
         $admins = $this->getAdmins();
