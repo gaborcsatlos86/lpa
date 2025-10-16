@@ -14,7 +14,7 @@ class EmailSendingService
         private MailerInterface $mailer
     ){}
     
-    public function sendMail(string $from, string $to, string $subject, string $content): bool
+    public function sendMail(string $from, string $to, string $subject, string $content, array $cc = []): bool
     {
         $email = (new Email())
             ->from($from)
@@ -22,6 +22,10 @@ class EmailSendingService
             ->subject($subject)
             ->html($content)
         ;
+        
+        foreach ($cc as $ccAddress) {
+            $email = $email->addCc($ccAddress);
+        }
         try {
             $this->mailer->send($email);
         } catch (Exception $e) {
