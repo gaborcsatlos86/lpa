@@ -7,12 +7,17 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\UserBundle\Entity\BaseUser;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 
 #[ORM\Entity]
 #[ORM\UniqueConstraint(name: "username", columns: ["username"])]
+#[Gedmo\SoftDeleteable]
 class User extends BaseUser
 {
+    use SoftDeleteable;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
@@ -26,6 +31,9 @@ class User extends BaseUser
     
     #[ORM\ManyToOne(targetEntity: Area::class)]
     protected ?Area $area = null;
+    
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    protected $deletedAt;
     
     public function getName(): string
     {

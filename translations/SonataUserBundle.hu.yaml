@@ -9,9 +9,12 @@ show.label_level: Szint
 list.label_level: Szint
 filter.label_level: Szint
 show.label_area: Terület
+show.label_name: Teljes név
 list.label_area: Terület
 filter.label_area: Terület
 form.label_area: Terület
+list.label_deleted_at: Törölve
+filter.label_deleted: Törölve
 ---: ---
 Area: Terület
 production: Gyártás
