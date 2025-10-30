@@ -17,10 +17,10 @@ class AnswerSummary extends AbstractBaseEntity
     private string $level;
     
     #[ORM\ManyToOne(targetEntity: Area::class)]
-    private Area $area;
+    private ?Area $area = null;
     
     #[ORM\ManyToOne(targetEntity: TableGroup::class)]
-    private TableGroup $tableGroup;
+    private ?TableGroup $tableGroup = null;
     
     #[ORM\Column(type: Types::STRING)]
     private string $product;
@@ -43,12 +43,12 @@ class AnswerSummary extends AbstractBaseEntity
         return $this->level;
     }
 
-    public function getArea(): Area
+    public function getArea(): ?Area
     {
         return $this->area;
     }
 
-    public function getTableGroup(): TableGroup
+    public function getTableGroup(): ?TableGroup
     {
         return $this->tableGroup;
     }
@@ -85,14 +85,14 @@ class AnswerSummary extends AbstractBaseEntity
         return $this;
     }
 
-    public function setArea(Area $area): self
+    public function setArea(?Area $area = null): self
     {
         $this->area = $area;
         
         return $this;
     }
 
-    public function setTableGroup(TableGroup $tableGroup): self
+    public function setTableGroup(?TableGroup $tableGroup = null): self
     {
         $this->tableGroup = $tableGroup;
         
@@ -143,7 +143,7 @@ class AnswerSummary extends AbstractBaseEntity
     
     public function __toString(): string
     {
-        return $this->area->getName() . ' ('. $this->level . ') ' . $this->product. ': ' . $this->answer . ' ['. $this->periodStart->format('Y-m-d') . (($this->periodEnd instanceof DateTimeImmutable ) ? ' - '. $this->periodEnd->format('m-d') : '').  ']';
+        return (($this->area instanceof Area) ? $this->area->getName() : '') . ' ('. $this->level . ') ' . $this->product. ': ' . $this->answer . ' ['. $this->periodStart->format('Y-m-d') . (($this->periodEnd instanceof DateTimeImmutable ) ? ' - '. $this->periodEnd->format('m-d') : '').  ']';
     }
     
     #[ORM\PrePersist]
