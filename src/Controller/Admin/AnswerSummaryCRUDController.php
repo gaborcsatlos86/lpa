@@ -21,12 +21,41 @@ class AnswerSummaryCRUDController extends CRUDController
         }
         $area = $entityManager->getRepository(Area::class)->find($request->query->get('area'));
         
-        $answerSummaries = $entityManager->getRepository(AnswerSummary::class)->findBy(['area' => $area], ['level' => 'ASC','periodStart' => 'DESC']);
+        $answerSummaries = $entityManager->getRepository(AnswerSummary::class)->findBy(['area' => $area], ['level' => 'ASC', 'periodStart' => 'DESC']);
+        $this->processItemsToResponse($answerSummaries, $responseData);
+        $answerSummaries = $entityManager->getRepository(AnswerSummary::class)->findBy(['area' => null], ['level' => 'ASC', 'periodStart' => 'DESC']);
+        $this->processItemsToResponse($answerSummaries, $responseData);
+        
+        return $this->json($responseData);
+    }
+    
+    private function getAnswerColor(string $answer): string
+    {
+        $color = 'red';
+        switch ($answer) {
+            case AnswerTypes::ANSWER_NOK:
+                $color = 'red';
+                break;
+                
+            case AnswerTypes::ANSWER_OK:
+                $color = 'green';
+                break;
+                
+            case AnswerTypes::ANSWER_NOT_WORKING_DAY:
+                $color = 'orange';
+                break;
+        }
+        
+        return $color;
+    }
+    
+    private function processItemsToResponse(array $answerSummaries, array &$responseData): void
+    {
         foreach ($answerSummaries as $answerSummary) {
             /** @var AnswerSummary $answerSummary */
             $calendarItem = [
                 'title' => $answerSummary->getLevel() . ' - ' . $answerSummary->getProduct(),
-                'color' => ($answerSummary->getAnswer() == AnswerTypes::ANSWER_NOK) ? 'red' : 'green',
+                'color' => $this->getAnswerColor($answerSummary->getAnswer()),
                 'start' => $answerSummary->getPeriodStart()->format('Y-m-d'),
                 'url'   => '/admin/app/questionanswer/list?filter[answerSummary][value]='.$answerSummary->getId()
             ];
@@ -36,7 +65,5 @@ class AnswerSummaryCRUDController extends CRUDController
             }
             $responseData[] = $calendarItem;
         }
-        
-        return $this->json($responseData);
     }
 }

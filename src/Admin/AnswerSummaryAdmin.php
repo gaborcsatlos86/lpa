@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Enums\{UserLevel};
+use App\Enums\{UserLevel, AnswerTypes};
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -31,7 +31,7 @@ final class AnswerSummaryAdmin extends AbstractAdmin
     {
         $form
             ->with('general', ['class' => 'col-md-6'])
-                ->add('level',ChoiceType::class, [
+                ->add('level', ChoiceType::class, [
                     'choices' => array_merge(UserLevel::getItems(), ['---' => null])
                 ])
                 ->add('area')
@@ -39,7 +39,9 @@ final class AnswerSummaryAdmin extends AbstractAdmin
                 ->add('product')
             ->end()
             ->with('lpa', ['class' => 'col-md-4'])
-                ->add('answer')
+                ->add('answer', ChoiceType::class, [
+                    'choices' => AnswerTypes::getSummaryItems()
+                ])
                 ->add('periodStart', DatePickerType::class)
                 ->add('periodEnd', DatePickerType::class)
             ->end()
