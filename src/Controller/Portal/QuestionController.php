@@ -155,8 +155,10 @@ class QuestionController extends AbstractController
         $userAnswers = $this->entityManager->getRepository(QuestionAnswer::class)->createQueryBuilder('qa')
             ->andWhere('qa.area = :area')
             ->andWhere('qa.createdAt LIKE :today')
+            ->andWhere('qa.level = :level')
             ->setParameter('area', $area)
             ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d').'%')
+            ->setParameter('level', $user->getLevel())
             ->getQuery()->getResult();
         
         return $this->json(['status' => !empty($userAnswers)]);
