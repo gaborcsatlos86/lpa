@@ -1,0 +1,7 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <div>
+        {% if object.media %}{{ sonata_thumbnail(object.media, 'small') }}{% endif %}
+    </div>
+{% endblock %}

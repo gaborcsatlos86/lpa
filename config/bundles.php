@@ -24,5 +24,6 @@ return [
     Sonata\UserBundle\SonataUserBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['all' => true],
     Sonata\Exporter\Bridge\Symfony\SonataExporterBundle::class => ['all' => true],
-    
+    Sonata\MediaBundle\SonataMediaBundle::class => ['all' => true],
+    Sonata\ClassificationBundle\SonataClassificationBundle::class => ['all' => true],
 ];

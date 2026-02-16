@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\{PrePersistEventArgs, PreUpdateEventArgs};
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
+use App\Entity\Media\Media;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
@@ -35,6 +36,10 @@ class Area extends AbstractBaseEntity
     
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     protected $deletedAt;
+    
+    #[ORM\ManyToOne(targetEntity: Media::class, cascade: ['persist'])]
+    private ?Media $media = null;
+    
     
     public function getName(): string
     {
@@ -92,6 +97,18 @@ class Area extends AbstractBaseEntity
     public function setActive(bool $active): self
     {
         $this->active = $active;
+        
+        return $this;
+    }
+    
+    public function getMedia(): ?Media
+    {
+        return $this->media;
+    }
+    
+    public function setMedia(?Media $media): self
+    {
+        $this->media = $media;
         
         return $this;
     }

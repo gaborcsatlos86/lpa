@@ -10,18 +10,29 @@
         <div class="container">
           <h1 class="jumbotron-heading">{{ 'LPA Audit'|trans() }}</h1>
           <p>{{ 'Layered Process Audit'|trans() }}</p>
-          {% if user_level %}
-          <h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
-          {% endif %}
-          {% if area %}
-          <p>
-          	{{ 'Actual area:'|trans() }} <b>{{ area.name}}</b><br />
-          	{{ 'Actual table group:'|trans() }} <b>{{ tableGroup.name}}</b><br />
-          	{{ 'Actual product:'|trans() }} <b>{{ product}}</b>
-          </p>
-          {% endif %}
+          <div class="row">
+          	<div class="col">
+                {% if user_level %}
+              	<h3>{{ 'Welcome on '|trans() }}{{ user_level|trans() }}en</h3>
+                {% endif %}
+                {% if area %}
+            	<p>
+              	{{ 'Actual area:'|trans() }} <b>{{ area.name}}</b><br />
+              	{{ 'Actual table group:'|trans() }} <b>{{ tableGroup.name}}</b><br />
+              	{{ 'Actual product:'|trans() }} <b>{{ product}}</b>
+                </p>
+                {% endif %}
+          	</div>
+          	<div class="col">
+          		{% if area %}
+          		{% if area.media %}{{ sonata_media(area.media, 'big') }}{% endif %}
+          		{% endif %}
+          	</div>
+          </div>
+          <div class="row">
+          	<div class="col">
           {% if questions %}
-		    <form method="post" data-turbo="false">
+		    <form class="question-form" method="post" data-turbo="false">
 		      	{% for question in questions %}
 		      	<div id="question{{ loop.index }}" class="tab-pane fade{% if loop.index == 1  %} active show{% endif %}">
 		          <h3>{{ question.text|raw }}</h3>
@@ -41,7 +52,6 @@
 		          </div>
 		        </div>
 	          	{% endfor %}
-		      </div>
 		      <button id="send-button" class="btn btn-lg btn-primary btn-block" type="submit" disabled>{{ 'Submit'|trans() }}</button>
 		    </form>
 	    {% else %}
@@ -50,6 +60,8 @@
 		<p>{{ 'Audit final result:'|trans() }} <b>{{ auditFinaleResult }}</b></p>
 		    {% endif %}
 	    {% endif %}
+	    	</div>
+	    </div>
     </section>
 {% endblock %}
 

@@ -12,6 +12,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\{StringListFilter, NullFilter};
 use Symfony\Component\Form\Extension\Core\Type\{TextType, ChoiceType};
+use Sonata\MediaBundle\Form\Type\MediaType;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 
 final class AreaAdmin extends AbstractAdmin
 {
@@ -21,8 +23,12 @@ final class AreaAdmin extends AbstractAdmin
             ->add('name', TextType::class)
             ->add('parent')
             ->add('externalId')
-            ->add('type',ChoiceType::class, [
+            ->add('type', ChoiceType::class, [
                 'choices' => AreaEnum::getItems()
+            ])
+            ->add('media', MediaType::class, [
+                'provider' => 'sonata.media.provider.image',
+                'context'  => 'default',
             ])
             ->add('active')
         ;
@@ -56,6 +62,7 @@ final class AreaAdmin extends AbstractAdmin
             ->add('externalId')
             ->add('parent')
             ->add('type')
+            ->add('media', FieldDescriptionInterface::TYPE_STRING, ['template' => '@SonataMedia/MediaAdmin/list_custom.html.twig'])
             ->add('active')
             ->add('deletedAt')
         ;
@@ -79,6 +86,7 @@ final class AreaAdmin extends AbstractAdmin
             ->add('parent')
             ->add('type')
             ->add('active')
+            ->add('media')
         ;
     }
 }
