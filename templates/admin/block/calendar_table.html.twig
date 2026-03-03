@@ -1,0 +1,52 @@
+<table class="calendar-table">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+			{% for day in days %}
+			<th class="day">{{ day }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for areaData in tableData %}
+		<tr>
+			<th rowspan="3">{{ areaData.name }}</th>
+			<td>LPA1</td>
+			{% for rowData in areaData.items %}
+			    {% if rowData['level-1']|length > 0 %}
+				<td class="{{ rowData['level-1'].color }}">
+					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-1'].id }}">{{ rowData['level-1'].answer }}</a>
+				</td>
+				{% else %}
+				<td></td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		<tr>
+			<td>LPA2</td>
+			{% for rowData in areaData.items %}
+			    {% if rowData['level-2']|length > 0 %}
+				<td class="{{ rowData['level-2'].color }}">
+					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-2'].id }}">{{ rowData['level-2'].answer }}</a>
+				</td>
+				{% else %}
+				<td></td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		<tr>
+			<td>LPA3</td>
+			{% for rowData in areaData.items %}
+			    {% if rowData['level-3']|length > 0 %}
+				<td class="{{ rowData['level-3'].color }}">
+					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-3'].id }}">{{ rowData['level-3'].answer }}</a>
+				</td>
+				{% else %}
+				<td></td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -3,39 +3,18 @@
 {% set translation_domain = settings.translation_domain ?? admin.translationDomain %}
 
 {% block block %}
-	<script src="fullcalendar-6.1.19/dist/index.global.min.js"></script>
 	<script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-      	let elementArea = document.getElementById('area');
-      	elementArea.value = 3;
-        elementArea.dispatchEvent(new Event('change'));
-      });
-      
-      function initCalendar(areaId) {
-      	$.get("{{ admin.generateUrl('dataList') }}?area="+areaId, function(dataEvents){
+      function initCalendar() {
+      	$.get("{{ admin.generateUrl('dataList') }}", function(dataEvents){
       		var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-              initialView: 'dayGridMonth',
-              locale: 'hu',
-              firstDay: 1,
-              events: dataEvents
-            });
-            calendar.render();
+            $("#calendar").html(dataEvents.view);
       	});
       }
+      initCalendar();
     </script>
     <div class="{{ settings.color }}">
         <div class="inner">
             <h3>{{ 'Question Answers Statistics'|trans() }}</h3>
-            <div>
-            	<label for="area">Terület: </label>
-            	<select name="area" id="area" onchange="initCalendar(this.value);">
-            		{% for area in areas %}
-            		<option value="{{ area.id }}">{{ area.name }}</option>
-            		{% endfor %}
-            	</select>
-            </div>
             <div id='calendar'></div>
         </div>
         <a href="{{ admin.generateUrl('list', {filter: settings.filters}) }}" class="small-box-footer">
