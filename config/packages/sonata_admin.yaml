@@ -7,10 +7,32 @@ sonata_admin:
         role_admin: ROLE_ADMIN
         role_super_admin: ROLE_SUPER_ADMIN
     assets:
-        extra_javascripts:
-#            - bundles/sonatapage/app.js
-        extra_stylesheets:
-            - admin/admin_extra.css
+        # all `stylesheets`, `extra_stylesheets`, `remove_stylesheets`,
+        # `javascripts`, `extra_javascripts` and `remove_javascripts`
+        # can be simple strings or {path, package_name} pairs in case you have to set specific package name for the asset
+        stylesheets:
+
+            # The default stylesheet list:
+            - bundles/sonataadmin/app.css
+            - bundles/sonataform/app.css
+
+        # stylesheets to add to the page in addition to the list above
+        extra_stylesheets: [admin/admin_extra.css]
+
+        # stylesheet paths to remove from the page
+        remove_stylesheets: []
+
+        javascripts:
+
+            # The default javascript list:
+            - bundles/sonataadmin/app.js
+            - bundles/sonataform/app.js
+
+        # javascripts to add to the page in addition to the list above
+        extra_javascripts: []
+
+        # javascript paths to remove from the page
+        remove_javascripts: []
     dashboard:
         blocks:
             - { class: col, position: top, type: admin.question_answer_statistics, settings: { code: admin.answer_summary, text: itt, color: bg-light-grey } }
