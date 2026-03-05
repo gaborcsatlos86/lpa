@@ -34,13 +34,16 @@ class Area extends AbstractBaseEntity
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $active;
     
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $hidden = false;
+    
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     protected $deletedAt;
     
     #[ORM\ManyToOne(targetEntity: Media::class, cascade: ['persist'])]
     private ?Media $media = null;
     
-    
+
     public function getName(): string
     {
         return $this->name;
@@ -97,6 +100,18 @@ class Area extends AbstractBaseEntity
     public function setActive(bool $active): self
     {
         $this->active = $active;
+        
+        return $this;
+    }
+    
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+    
+    public function setHidden(bool $hidden): self
+    {
+        $this->hidden = $hidden;
         
         return $this;
     }

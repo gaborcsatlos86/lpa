@@ -3,22 +3,39 @@
 {% set translation_domain = settings.translation_domain ?? admin.translationDomain %}
 
 {% block block %}
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
 	<script>
-      function initCalendar() {
-      	$.get("{{ admin.generateUrl('dataList') }}", function(dataEvents){
-      		var calendarEl = document.getElementById('calendar');
-            $("#calendar").html(dataEvents.view);
-      	});
-      }
-      initCalendar();
+      
     </script>
     <div class="{{ settings.color }}">
         <div class="inner">
             <h3>{{ 'Question Answers Statistics'|trans() }}</h3>
+            Válassz hónapot: <input type="text" id="month-selector" name="month" value={{ "now"|date("Y-m") }}>
             <div id='calendar'></div>
         </div>
         <a href="{{ admin.generateUrl('list', {filter: settings.filters}) }}" class="small-box-footer">
             {{ 'stats_view_more'|trans({}, 'SonataAdminBundle') }} <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
         </a>
     </div>
+    <script>
+    	jQuery(function ($) {
+    		$('#month-selector').datepicker({
+    			dateFormat: "yy-mm"
+    		});
+    		$('#month-selector').on('change', function(event){
+    			initCalendar(this.value);
+    		});
+    		
+    		initCalendar($('#month-selector').val());
+    	});
+    	function initCalendar(month) {
+      	$.get("{{ admin.generateUrl('dataList') }}?month="+month, function(dataEvents){
+      		var calendarEl = document.getElementById('calendar');
+            $("#calendar").html(dataEvents.view);
+      	});
+      }
+      
+    </script>
 {% endblock %}

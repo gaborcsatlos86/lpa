@@ -4,7 +4,7 @@
 			<th></th>
 			<th></th>
 			{% for day in days %}
-			<th class="day">{{ day }}</th>
+			<th class="day {% if day.isWeekend %}grey{% endif %}">{{ day.date }}</th>
 			{% endfor %}
 		</tr>
 	</thead>
@@ -19,7 +19,7 @@
 					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-1'].id }}">{{ rowData['level-1'].answer }}</a>
 				</td>
 				{% else %}
-				<td></td>
+				<td class="{% if rowData.isWeekend %}grey{% endif %}"></td>
 				{% endif %}
 			{% endfor %}
 		</tr>
@@ -31,7 +31,7 @@
 					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-2'].id }}">{{ rowData['level-2'].answer }}</a>
 				</td>
 				{% else %}
-				<td></td>
+				<td class="{% if rowData.isWeekend %}grey{% endif %}"></td>
 				{% endif %}
 			{% endfor %}
 		</tr>
@@ -43,7 +43,7 @@
 					<a href="/admin/app/questionanswer/list?filter[answerSummary][value]={{ rowData['level-3'].id }}">{{ rowData['level-3'].answer }}</a>
 				</td>
 				{% else %}
-				<td></td>
+				<td class="{% if rowData.isWeekend %}grey{% endif %}"></td>
 				{% endif %}
 			{% endfor %}
 		</tr>

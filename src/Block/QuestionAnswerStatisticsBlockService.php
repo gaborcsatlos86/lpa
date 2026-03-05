@@ -35,13 +35,11 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
         $settings = $blockContext->getSettings();
         $admin = $this->pool->getAdminByAdminCode($blockContext->getSetting('code'));
         
-        $areas = $this->initAreas();
         
         return $this->renderResponse($blockContext->getTemplate(), [
             'block'     => $blockContext->getBlock(),
             'settings'  => $settings,
             'admin'     => $admin,
-            'areas'     => $areas,
         ], $response);
     }
     
@@ -57,36 +55,5 @@ class QuestionAnswerStatisticsBlockService extends AbstractBlockService
             'limit' => 1000,
             'template' => 'admin/block/block_stats.html.twig',
         ]);
-    }
-    
-    protected function initAreas(): array
-    {
-        $areas = [];
-        
-        $prods = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_PRODUCTION]);
-        foreach ($prods as $item) {
-            $areas[] = [
-                'id' => $item->getId(),
-                'name' => $item->getName()
-            ];
-        }
-        
-        $warehouses = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_WAREHOUSE]);
-        foreach ($warehouses as $item) {
-            $areas[] = [
-                'id' => $item->getId(),
-                'name' => $item->getName()
-            ];
-        }
-        
-        $maintens = $this->em->getRepository(AreaEntity::class)->findBy(['type' => Area::AREA_MAINTENANCE]);
-        foreach ($maintens as $item) {
-            $areas[] = [
-                'id' => $item->getId(),
-                'name' => $item->getName()
-            ];
-        }
-        
-        return $areas;
     }
 }

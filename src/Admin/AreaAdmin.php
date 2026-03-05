@@ -31,6 +31,7 @@ final class AreaAdmin extends AbstractAdmin
                 'context'  => 'default',
             ])
             ->add('active')
+            ->add('hidden')
         ;
     }
     
@@ -41,6 +42,7 @@ final class AreaAdmin extends AbstractAdmin
             ->add('externalId')
             ->add('parent')
             ->add('active')
+            ->add('hidden')
             ->add('type', StringListFilter::class, [
                 'field_type' => ChoiceType::class,
                 'field_options' => [
@@ -64,6 +66,7 @@ final class AreaAdmin extends AbstractAdmin
             ->add('type')
             ->add('media', FieldDescriptionInterface::TYPE_STRING, ['template' => '@SonataMedia/MediaAdmin/list_custom.html.twig'])
             ->add('active')
+            ->add('hidden')
             ->add('deletedAt')
         ;
         $list->add(ListMapper::NAME_ACTIONS, ListMapper::TYPE_ACTIONS, [
@@ -86,6 +89,7 @@ final class AreaAdmin extends AbstractAdmin
             ->add('parent')
             ->add('type')
             ->add('active')
+            ->add('hidden')
             ->add('media')
         ;
     }

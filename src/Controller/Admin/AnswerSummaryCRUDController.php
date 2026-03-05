@@ -22,9 +22,11 @@ class AnswerSummaryCRUDController extends CRUDController
     public function dataListAction(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $responseData = [];
-        $areas = $entityManager->getRepository(Area::class)->findAll();
-        $fromDate = new \DateTimeImmutable('-31 days');
-        
+        $areas = $entityManager->getRepository(Area::class)->findBy(['hidden' => false, 'deletedAt' => null]);
+        $fromDate = new \DateTimeImmutable();
+        if ($request->query->has('month')) {
+            $fromDate = new \DateTimeImmutable($request->query->get('month').'-01');
+        }
         foreach ($areas as $area) {
             $responseData[$area->getId()] = $this->calendarService->calculateCalendarData($area, $fromDate);
         }

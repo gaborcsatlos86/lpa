@@ -43,9 +43,12 @@ class CalendarService implements CalendarServiceInterface
     {
         $result = [];
         $interval = new \DateInterval('P1D');
-        $period = new \DatePeriod($fromDate, $interval, new \DateTimeImmutable(), \DatePeriod::INCLUDE_END_DATE);
+        $period = new \DatePeriod($fromDate, $interval, new \DateTimeImmutable($fromDate->format('Y-m-t')), \DatePeriod::INCLUDE_END_DATE);
         foreach ($period as $date) {
-            $result[] = $date->format('Y-m-d');
+            $result[] = [
+                'date' => $date->format('Y-m-d'),
+                'isWeekend' => ((int)$date->format('N') > 5)
+            ];
         }
         return $result;
     }
@@ -53,12 +56,13 @@ class CalendarService implements CalendarServiceInterface
     private function setDates(array &$result, \DateTimeImmutable $fromDate): void
     {
         $interval = new \DateInterval('P1D');
-        $period = new \DatePeriod($fromDate, $interval, new \DateTimeImmutable());
+        $period = new \DatePeriod($fromDate, $interval, new \DateTimeImmutable($fromDate->format('Y-m-t')), \DatePeriod::INCLUDE_END_DATE);
         foreach ($period as $date) {
             $result[$date->format('Y-m-d')] = [
                 UserLevel::LEVEL_1 => [],
                 UserLevel::LEVEL_2 => [],
                 UserLevel::LEVEL_3 => [],
+                'isWeekend' => ((int)$date->format('N') > 5)
             ];
         }
     }
