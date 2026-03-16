@@ -21,8 +21,6 @@ class AreaRepository extends ServiceEntityRepository implements AreaRepositoryIn
             ->select('DISTINCT a.parent')
             ->andWhere('a.parent IS NOT NULL');
         
-            
-            
         return $qb->getQuery()->getResult();
     }
     

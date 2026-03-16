@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     mailer-sender: '%env(MAILER_SENDER)%'
+    generated-files-folder: '/files/generated/'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -47,6 +48,11 @@ services:
         class: App\Admin\AnswerSummaryAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\AnswerSummary, controller: App\Controller\Admin\AnswerSummaryCRUDController,  manager_type: orm, label: Answer Summary, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
+            
+    admin.statement:
+        class: App\Admin\StatementAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Statement,  manager_type: orm, label: Statement, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
             
     admin.question_answer_statistics:
         class: App\Block\QuestionAnswerStatisticsBlockService

@@ -24,4 +24,16 @@ class QuestionAnswerRepository extends ServiceEntityRepository implements Questi
         
         return $qb->getQuery()->getResult();
     }
+
+    public function findByDateAndAnswer(string $date, string $answer): array
+    {
+        $qb = $this->createQueryBuilder('qa')
+            ->andWhere('qa.createdAt LIKE :date')
+            ->setParameter('date', $date.'%')
+            ->andWhere('qa.answer LIKE :answer')
+            ->setParameter('answer', $answer)
+        ;
+        
+        return $qb->getQuery()->getResult();
+    }
 }

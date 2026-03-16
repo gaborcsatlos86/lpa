@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\{Area};
 use App\Enums\{UserLevel};
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -81,6 +82,8 @@ final class QuestionAnswerAdmin extends AbstractAdmin
             ->add('createdAt', FieldDescriptionInterface::TYPE_DATE)
             ->add('answerSummary')
         ;
+        $filters = $this->getModelManager()->getEntityManager(Area::class)->getFilters();
+        $filters->disable('soft_delete');
     }
     
     protected function configureShowFields(ShowMapper $show): void
