@@ -23,6 +23,11 @@ use \Exception;
 #[AsCommand(name: 'app:alert-level-2-to-uppers')]
 class AlertLevel2ToUppersCommand extends Command
 {
+    private array $adminEamils = [
+        'andrea.matusik@hirschmann-car.com',
+        'milan.galos@hirschmann-car.com'
+    ];
+    
     public function __construct(
         private EntityManagerInterface $em,
         private EmailSendingService $emailSending,
@@ -43,11 +48,6 @@ class AlertLevel2ToUppersCommand extends Command
         $needsDebug = ($input->hasArgument('debug') && $input->getArgument('debug') == 'debug');
         $areas = $this->initAreas();
         $today = new DateTimeImmutable('today');
-        $admins = $this->getAdmins();
-        $adminsToCC = [];
-        foreach ($admins as $admin) {
-            $adminsToCC[] = $admin->getEmail();
-        }
         foreach ($areas as $area){
             if ($needsDebug) {
                 $output->writeln($area->getName().' area in process...');
@@ -69,7 +69,7 @@ class AlertLevel2ToUppersCommand extends Command
                     $level3Users = $this->em->getRepository(User::class)->findBy(['enabled' => 1, 'level' => UserLevel::LEVEL_3, 'area' => $area->getParent()]);
                 }
                 if (empty($level3Users)) {
-                    $level3Users = $admins;
+                    $level3Users = $this->getAdmins();
                 }
                 try {
                     foreach ($level3Users as $level3User){
@@ -83,7 +83,7 @@ class AlertLevel2ToUppersCommand extends Command
                                 'Email to '. $level3User->getName(). ' ['. $level3User->getEmail() .']',
                                 $content]);
                         }
-                        $this->emailSending->sendMail($this->params->get('mailer-sender'), $level3User->getEmail(), 'Értesítés audit hiányosságról', $content, $adminsToCC);
+                        $this->emailSending->sendMail($this->params->get('mailer-sender'), $level3User->getEmail(), 'Értesítés audit hiányosságról', $content, $this->adminEamils);
                     }
                 } catch (Exception $e) {
                     if ($needsDebug) {
