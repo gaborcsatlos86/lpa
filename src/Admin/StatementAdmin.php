@@ -34,6 +34,8 @@ final class StatementAdmin extends AbstractAdmin
             ->remove('show')
             ->remove('create')
             ->remove('edit')
+            ->add('createMonthly')
+            ->add('createYearly')
         ;
     }
     
@@ -68,6 +70,32 @@ final class StatementAdmin extends AbstractAdmin
                 ],
             ],
         ]);
+    }
+    
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
+    {
+        $buttonList['createMonthly'] = ['template' => 'admin/list/monthly_button.html.twig'];
+        $buttonList['createYearly'] = ['template' => 'admin/list/yearly_button.html.twig'];
+        
+        return $buttonList;
+    }
+    
+    protected function configureDashboardActions(array $actions): array
+    {
+        $actions['createMonthly'] = [
+            'label' => 'create_monthly_action',
+            'translation_domain' => 'SonataAdminBundle',
+            'url' => $this->generateUrl('createMonthly'),
+            'icon' => 'fas fa-plus-circle',
+        ];
+        $actions['createYearly'] = [
+            'label' => 'create_yearly_action',
+            'translation_domain' => 'SonataAdminBundle',
+            'url' => $this->generateUrl('createYearly'),
+            'icon' => 'fas fa-plus-circle',
+        ];
+        
+        return $actions;
     }
     
     protected function postRemove(object $object): void

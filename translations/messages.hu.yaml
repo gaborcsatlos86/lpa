@@ -127,4 +127,5 @@ filter.label_level: Szint
 'Path': 'Elérés'
 'Actions': 'Akciók'
 'Statement List': 'Kimutatás Lista'
-
+'Year': 'Év'
+'Month': 'Hónap'

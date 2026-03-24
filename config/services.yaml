@@ -52,7 +52,7 @@ services:
     admin.statement:
         class: App\Admin\StatementAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Statement,  manager_type: orm, label: Statement, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
+            - { name: sonata.admin, model_class: App\Entity\Statement, controller: App\Controller\Admin\StatementCRUDController, manager_type: orm, label: Statement, group: LPA, icon: '<i class="fa fa-bar-chart"></i>' }
             
     admin.question_answer_statistics:
         class: App\Block\QuestionAnswerStatisticsBlockService

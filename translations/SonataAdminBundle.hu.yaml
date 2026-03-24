@@ -1,3 +1,5 @@
 System: Rendszer
 LPA: LPA
 'Actions': 'Akciók'
+'create_monthly_action': 'Havi LPA_QCPC'
+'create_yearly_action': 'Éves LPA_QCPC_FY'

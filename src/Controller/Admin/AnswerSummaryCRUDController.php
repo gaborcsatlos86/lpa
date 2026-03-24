@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-
-
 use App\Entity\{AnswerSummary, Area};
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\{JsonResponse, Request};
