@@ -11,27 +11,22 @@
 			<attribute name="composer" value="source"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/behat/transliterator/src/Behat/Transliterator">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/cocur/slugify/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry excluding="semver/" kind="src" path="vendor/composer">
+	<buildpathentry kind="src" path="vendor/composer/pcre/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry excluding="pcre/|semver/" kind="src" path="vendor/composer">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/composer/semver/src">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/doctrine/cache/lib/Doctrine/Common/Cache">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -56,7 +51,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/doctrine/deprecations/lib/Doctrine/Deprecations">
+	<buildpathentry kind="src" path="vendor/doctrine/deprecations/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -71,7 +66,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/doctrine/doctrine-migrations-bundle">
+	<buildpathentry kind="src" path="vendor/doctrine/doctrine-migrations-bundle/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -81,7 +76,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/doctrine/inflector/lib/Doctrine/Inflector">
+	<buildpathentry kind="src" path="vendor/doctrine/inflector/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -636,7 +631,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle">
+	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -702,6 +697,16 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/symfony/polyfill-php83/Resources/stubs">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry excluding="Resources/stubs/" kind="src" path="vendor/symfony/polyfill-php84">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-php84/Resources/stubs">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

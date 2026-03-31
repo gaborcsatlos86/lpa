@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Enums\AnswerTypes;
-use App\Form\{StatementMonthlyType, StatementYearlyType};
+use App\Form\{StatementMonthlyType, StatementYearlyType, StatementMonthlySummType};
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\{Response, Request};
-use Doctrine\ORM\EntityManagerInterface;
-use App\Service\{MonthlyAnswerStatementServiceInterface, YearlyAnswerStatementServiceInterface};
+use App\Service\{MonthlyAnswerStatementServiceInterface, YearlyAnswerStatementServiceInterface, MonthlySummLevelOneServiceInterface};
 
 class StatementCRUDController extends CRUDController
 {
-    
     public function createMonthlyAction(Request $request, MonthlyAnswerStatementServiceInterface $monthlyAnswerStatementService): Response
     {
         $form = $this->createForm(StatementMonthlyType::class);
@@ -43,6 +41,25 @@ class StatementCRUDController extends CRUDController
             }
         }
         return $this->render('/admin/statement/yearly.html.twig', ['form' => $form]);
+    }
+    
+    public function createMonthlyAreaSumAction(Request $request, MonthlySummLevelOneServiceInterface $monthlySummLevelOneStatementService): Response
+    {
+        $form = $this->createForm(StatementMonthlySummType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $year = (int)$form->get('year')->getData();
+            $month = (int)$form->get('month')->getData();
+            if ($month < 10) {
+                $month = '0'.$month;
+            }
+            $excepted = (int)$form->get('excepted')->getData();
+            
+            if ($monthlySummLevelOneStatementService->generate($year.'-'.$month, 'LPA_havi', $excepted)) {
+                return $this->redirectToRoute('admin_app_statement_list');
+            }
+        }
+        return $this->render('/admin/statement/monthly_summ.html.twig', ['form' => $form]);
     }
     
 }

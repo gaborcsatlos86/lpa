@@ -29,4 +29,17 @@ class AnswerSummaryRepository extends ServiceEntityRepository implements AnswerS
         ;
         return $qb->getQuery()->getResult();
     }
+    
+    public function getItemsByDate(string $month): array
+    {
+        $qb = $this->createQueryBuilder('anssum')
+            ->innerJoin(Area::class, 'area')
+            ->andWhere('area.hidden = 0')
+            ->andWhere('area.deletedAt IS NULL')
+            ->andWhere('anssum.level = :level')
+            ->setParameter('level', UserLevel::LEVEL_1)
+            ->andWhere('anssum.periodStart LIKE :month')
+            ->setParameter('month', $month.'%');
+        return $qb->getQuery()->getResult();
+    }
 }

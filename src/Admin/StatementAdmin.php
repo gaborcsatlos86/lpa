@@ -36,6 +36,7 @@ final class StatementAdmin extends AbstractAdmin
             ->remove('edit')
             ->add('createMonthly')
             ->add('createYearly')
+            ->add('createMonthlyAreaSum')
         ;
     }
     
@@ -76,6 +77,7 @@ final class StatementAdmin extends AbstractAdmin
     {
         $buttonList['createMonthly'] = ['template' => 'admin/list/monthly_button.html.twig'];
         $buttonList['createYearly'] = ['template' => 'admin/list/yearly_button.html.twig'];
+        $buttonList['createMonthlyAreaSum'] = ['template' => 'admin/list/monthly_area_sum_button.html.twig'];
         
         return $buttonList;
     }
@@ -92,6 +94,12 @@ final class StatementAdmin extends AbstractAdmin
             'label' => 'create_yearly_action',
             'translation_domain' => 'SonataAdminBundle',
             'url' => $this->generateUrl('createYearly'),
+            'icon' => 'fas fa-plus-circle',
+        ];
+        $actions['createMonthlyAreaSum'] = [
+            'label' => 'create_monthly_area_sum_action',
+            'translation_domain' => 'SonataAdminBundle',
+            'url' => $this->generateUrl('createMonthlyAreaSum'),
             'icon' => 'fas fa-plus-circle',
         ];
         
