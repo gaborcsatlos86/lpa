@@ -22,6 +22,12 @@ use \Exception;
 #[AsCommand(name: 'app:alert-level-3')]
 class AlertLevel3Command extends Command
 {
+    private array $adminEmails = [
+        'istvan.boszormenyi@hirschmann-car.com',
+        'andrea.matusik@hirschmann-car.com',
+        'milan.galos@hirschmann-car.com'
+    ];
+    
     public function __construct(
         private EntityManagerInterface $em,
         private EmailSendingService $emailSending,
@@ -53,12 +59,6 @@ class AlertLevel3Command extends Command
             return Command::SUCCESS;
         }
         
-        $admins = $this->em->getRepository(User::class)->createQueryBuilder('u')
-            ->andWhere('u.roles LIKE :adminRole')
-            ->andWhere('u.enabled = 1')
-            ->setParameter('adminRole', '%'.UserInterface::ROLE_SUPER_ADMIN.'%')
-            ->getQuery()->getResult();
-        
         $content = '<h1>Kedves Admin</h1>' . PHP_EOL.
         '<p>Az alábbi LPA audit nem készült el:</p>'. PHP_EOL.
         '<p>3. szint <br>' . implode(', ', $noAudit) .'</p>' . PHP_EOL.
@@ -66,8 +66,8 @@ class AlertLevel3Command extends Command
         ;
         
         try {
-            foreach ($admins as $admin){
-                $this->emailSending->sendMail($this->params->get('mailer-sender'), $admin->getEmail(), 'Értesítés audit hiányosságról', $content);
+            foreach ($this->adminEmails as $adminEmail){
+                $this->emailSending->sendMail($this->params->get('mailer-sender'), $adminEmail, 'Értesítés audit hiányosságról', $content);
             }
         } catch (Exception $e) {
             return Command::INVALID;
