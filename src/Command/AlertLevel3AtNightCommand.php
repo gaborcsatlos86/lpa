@@ -40,8 +40,11 @@ class AlertLevel3AtNightCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $areas = $this->initAreas();
         $today = new DateTimeImmutable('today');
+        if (!$this->isNowLastWeek($today)) {
+            return Command::SUCCESS;
+        }
+        $areas = $this->initAreas();
         $noAudit = [];
         foreach ($areas as $area){
             $audits = $this->em->getRepository(QuestionAnswer::class)->createQueryBuilder('qa')
@@ -75,7 +78,17 @@ class AlertLevel3AtNightCommand extends Command
         }    
         
         return Command::SUCCESS;
-        
+    }
+    
+    protected function isNowLastWeek(DateTimeImmutable $today): bool
+    {
+        $endOfTheMonth = new \DateTimeImmutable($today->format('Y-m-t'));
+        if ((int)$endOfTheMonth->format('N') > 5) {
+            $thisMonthLastMonday = new DateTimeImmutable($today->format('Y-m-'). ((int)$endOfTheMonth->format('d')-(int)$endOfTheMonth->format('N')+1));
+        } else {
+            $thisMonthLastMonday = new DateTimeImmutable($today->format('Y-m-'). ((int)$endOfTheMonth->format('d')-((int)$endOfTheMonth->format('N')+6)));
+        }
+        return $today >= $thisMonthLastMonday;
     }
     
     protected function initAreas(): array

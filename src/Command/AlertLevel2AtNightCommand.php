@@ -41,8 +41,12 @@ class AlertLevel2AtNightCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $areas = $this->initAreas();
         $today = new DateTimeImmutable('today');
+        if ((int)$today->format('N') == 1) {
+            return Command::SUCCESS;
+        }
+        
+        $areas = $this->initAreas();
         $monday = new DateTimeImmutable('-'.((int)$today->format('N')-1).' day');
         $noAudit = [];
         foreach ($areas as $area){
